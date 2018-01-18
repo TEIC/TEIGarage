@@ -47,12 +47,21 @@
 		<location>/error.jsp</location>
 	</error-page>
 	<!-- Filter added for CORS on Jetty -->
-	<filter>
+	<!--<filter>
 		<filter-name>cross-origin</filter-name>
 		<filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>cross-origin</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>-->
+	<!-- Filter added for CORS on Tomcat -->
+	<filter>
+		<filter-name>CorsFilter</filter-name>
+		<filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CorsFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 </web-app>
