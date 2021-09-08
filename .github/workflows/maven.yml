@@ -1,0 +1,36 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+    - name: maven-settings
+      uses: s4u/maven-settings-action@v2
+      with:
+        servers: '[{"id": "edirom", "username": "vifebot", "password": "${GITHUB_TOKEN}"},{"id": "teic", "username": "vifebot", "password": "${GITHUB_TOKEN}"}]'
+    - name: Build with Maven
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: mvn -B package --file pom.xml
+    - name: Upload Maven build artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: teigarage-webservice.war
+        path: /home/runner/work/teigarage-webservice/teigarage-webservice/target/teigarage-webservice.war
