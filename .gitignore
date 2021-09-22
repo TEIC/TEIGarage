@@ -17,3 +17,6 @@
 !*.xsd
 !*.yml
 target/
+!Dockerfile
+!.dockerignore
+!docker-entrypoint.sh
