@@ -46,19 +46,6 @@ RUN apt-get update \
     && ln -s ${OFFICE_HOME} /usr/lib/openoffice \
     && rm -rf /var/lib/apt/lists/*
 
-# installs lilypond into /usr/local/lilypond and /usr/local/bin as shortcut
-ADD https://lilypond.org/download/binaries/linux-64/lilypond-2.20.0-1.linux-64.sh /tmp/lilypond.sh
-RUN chmod a+x /tmp/lilypond.sh \
-    && /tmp/lilypond.sh --batch
-
-# clone and run
-RUN git clone -b master https://github.com/rism-ch/verovio /tmp/verovio \
-    && cd /tmp/verovio/tools \
-    && cmake ../cmake \
-    && make -j 8 \
-    && make install \
-    && cp /tmp/verovio/fonts/VerovioText-1.0.ttf /usr/local/share/fonts/ \
-    && fc-cache
 
 # copy some settings and entrypoint script
 COPY ege-webservice/src/main/webapp/WEB-INF/lib/oxgarage.properties /etc/
