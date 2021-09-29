@@ -33,8 +33,8 @@ RUN apt-get update \
 # entrypoint script
 COPY docker-entrypoint.sh /my-docker-entrypoint.sh
 
-# where do we put/get this? 
-# COPY log4j.xml /var/cache/oxgarage/log4j.xml
+# log4j.xml configuration
+COPY log4j.xml /var/cache/oxgarage/log4j.xml
 
 # download artifacts to /tmp
 # these war-files are zipped so we need to unzip them twice at the next stage 
