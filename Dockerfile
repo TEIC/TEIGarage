@@ -54,7 +54,7 @@ RUN rm -Rf ${CATALINA_WEBAPPS}/ROOT \
     && unzip -q /tmp/webservice.zip -d /tmp/ \
     && unzip -q /tmp/teigarage.zip -d /tmp/ \
     && unzip -q /tmp/ege-webclient.war -d ${CATALINA_WEBAPPS}/ROOT/ \
-    && unzip -q /tmp/teigarage.war -d ${CATALINA_WEBAPPS}/teigarage/ \
+    && unzip -q /tmp/teigarage.war -d ${CATALINA_WEBAPPS}/ege-webservice/ \
     && cp ${CATALINA_WEBAPPS}/teigarage/WEB-INF/lib/oxgarage.properties /etc/ \
     && rm /tmp/*.war \
     && rm /tmp/*.zip \
