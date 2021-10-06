@@ -38,8 +38,8 @@ COPY log4j.xml /var/cache/oxgarage/log4j.xml
 
 # download artifacts to /tmp
 # these war-files are zipped so we need to unzip them twice at the next stage 
-ADD https://nightly.link/TEIC/TEIGarage/workflows/maven/main/teigarage.war.zip /tmp/teigarage.zip
-ADD https://nightly.link/TEIC/ege-webclient/workflows/maven/main/ege-webclient-0.3.war.zip /tmp/webservice.zip
+ADD https://nightly.link/TEIC/TEIGarage/workflows/maven/main/artifact.zip /tmp/teigarage.zip
+ADD https://nightly.link/TEIC/ege-webclient/workflows/maven/main/artifact.zip /tmp/webservice.zip
 
 # we could download the artifacts directly from GitHub but then
 # we would need to pass in secrets since the GitHub API does not allow

@@ -32,5 +32,5 @@ jobs:
     - name: Upload Maven build artifact
       uses: actions/upload-artifact@v2
       with:
-        name: teigarage.war
+        name: artifact
         path: /home/runner/work/TEIGarage/TEIGarage/target/teigarage.war
