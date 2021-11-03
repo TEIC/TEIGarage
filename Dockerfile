@@ -52,6 +52,14 @@ ADD https://nightly.link/TEIC/ege-webclient/workflows/maven/main/artifact.zip /t
 #    && unzip /tmp/teigarage.zip -d /tmp/ \
 #    && unzip /tmp/webservice.zip -d /tmp/  
 
+# download TEI resources to /tmp
+ADD https://github.com/TEIC/Stylesheets/releases/download/v7.52.0/tei-xsl-7.52.0.zip /tmp/stylesheet.zip
+ADD https://github.com/TEIC/TEI/releases/download/P5_Release_4.3.0/tei-4.3.0.zip /tmp/odd.zip
+
+# unzip TEI resources and move them to correct folder
+RUN unzip -q /tmp/stylesheet.zip -d /usr/share/xml/tei/stylesheet \
+    && unzip -q /tmp/odd.zip -d /usr/share/xml/tei/odd
+
 RUN rm -Rf ${CATALINA_WEBAPPS}/ROOT \
     && unzip -q /tmp/webservice.zip -d /tmp/ \
     && unzip -q /tmp/teigarage.zip -d /tmp/ \
