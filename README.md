@@ -54,8 +54,8 @@ At the following places the respective git repositories need to be cloned (or sy
 
 | location on server | data to be added there |
 | --------------- | --------------- | 
-| /usr/share/xml/tei/stylesheet |  https://github.com/TEIC/Stylesheets/release | 
-| /usr/share/xml/tei/odd | https://github.com/TEIC/Stylesheets/releases |
+| /usr/share/xml/tei/stylesheet |  https://github.com/TEIC/Stylesheets/releases/latest | 
+| /usr/share/xml/tei/odd | https://github.com/TEIC/TEI/releases/latest |
 
 ### available parameters
 
