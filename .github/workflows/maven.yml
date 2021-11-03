@@ -24,7 +24,7 @@ jobs:
     - name: maven-settings
       uses: s4u/maven-settings-action@v2
       with:
-        servers: '[{"id": "edirom", "username": "vifebot", "password": "${GITHUB_TOKEN}"},{"id": "teic", "username": "vifebot", "password": "${GITHUB_TOKEN}"}]'
+        servers: '[{"id": "edirom", "username": "${github.actor}", "password": "${GITHUB_TOKEN}"},{"id": "teic", "username": "${github.actor}", "password": "${GITHUB_TOKEN}"}]'
     - name: Build with Maven
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -32,5 +32,5 @@ jobs:
     - name: Upload Maven build artifact
       uses: actions/upload-artifact@v2
       with:
-        name: teigarage.war
+        name: artifact
         path: /home/runner/work/TEIGarage/TEIGarage/target/teigarage.war
