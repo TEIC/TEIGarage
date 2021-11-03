@@ -32,7 +32,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: |
-            ghcr.io/edirom/teigarage
+            ghcr.io/teic/teigarage
           flavor: |
             latest=${{ github.ref == 'refs/heads/main' }}
             
