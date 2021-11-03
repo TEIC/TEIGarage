@@ -7,6 +7,8 @@
 #########################################
 FROM tomcat:7
 
+LABEL org.opencontainers.image.source=https://github.com/teic/teigarage
+
 ENV CATALINA_WEBAPPS ${CATALINA_HOME}/webapps
 ENV OFFICE_HOME /usr/lib/libreoffice
 
@@ -55,7 +57,7 @@ RUN rm -Rf ${CATALINA_WEBAPPS}/ROOT \
     && unzip -q /tmp/teigarage.zip -d /tmp/ \
     && unzip -q /tmp/ege-webclient.war -d ${CATALINA_WEBAPPS}/ROOT/ \
     && unzip -q /tmp/teigarage.war -d ${CATALINA_WEBAPPS}/ege-webservice/ \
-    && cp ${CATALINA_WEBAPPS}/teigarage/WEB-INF/lib/oxgarage.properties /etc/ \
+    && cp ${CATALINA_WEBAPPS}/ege-webservice/WEB-INF/lib/oxgarage.properties /etc/ \
     && rm /tmp/*.war \
     && rm /tmp/*.zip \
     && chmod 755 /my-docker-entrypoint.sh
