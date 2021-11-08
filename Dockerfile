@@ -30,7 +30,7 @@ RUN apt-get update \
     libgcc-8-dev \
     librsvg2-bin \
     && ln -s ${OFFICE_HOME} /usr/lib/openoffice \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
     && mkdir -p ${STYLESHEETS_HOME}
 
 # entrypoint script
