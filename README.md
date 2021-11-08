@@ -28,7 +28,7 @@ Further information on the code structure of MEIGarage and TEIGarage can be foun
 
 With Docker installed, a readymade image can be fetched from the [GitHub Action](https://github.com/TEIC/TEIGarage/blob/main/.github/workflows/docker.yml).
 
-`docker pull ghcr.io/TEIC/TEIGarage:latest`
+`docker pull ghcr.io/teic/teigarage:latest`
 
 ```bash
 docker run --rm \
