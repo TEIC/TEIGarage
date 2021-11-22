@@ -11,7 +11,6 @@ LABEL org.opencontainers.image.source=https://github.com/teic/teigarage
 
 ENV CATALINA_WEBAPPS ${CATALINA_HOME}/webapps
 ENV OFFICE_HOME /usr/lib/libreoffice
-ENV STYLESHEETS_HOME /usr/share/xml/tei
 
 USER root:root
 
@@ -30,8 +29,7 @@ RUN apt-get update \
     libgcc-8-dev \
     librsvg2-bin \
     && ln -s ${OFFICE_HOME} /usr/lib/openoffice \
-    && rm -rf /var/lib/apt/lists/* \
-    && mkdir -p ${STYLESHEETS_HOME}
+    && rm -rf /var/lib/apt/lists/*
 
 # entrypoint script
 COPY docker-entrypoint.sh /my-docker-entrypoint.sh
@@ -53,14 +51,6 @@ ADD https://nightly.link/TEIC/ege-webclient/workflows/maven/main/artifact.zip /t
 #    && unzip /tmp/teigarage.zip -d /tmp/ \
 #    && unzip /tmp/webservice.zip -d /tmp/  
 
-# download TEI resources to /tmp
-ADD https://github.com/TEIC/Stylesheets/releases/download/v7.52.0/tei-xsl-7.52.0.zip /tmp/stylesheet.zip
-ADD https://github.com/TEIC/TEI/releases/download/P5_Release_4.3.0/tei-4.3.0.zip /tmp/odd.zip
-
-# unzip TEI resources and move them to correct folder
-RUN unzip -q /tmp/stylesheet.zip -d ${STYLESHEETS_HOME}/stylesheet \
-    && unzip -q /tmp/odd.zip -d ${STYLESHEETS_HOME}/odd
-
 RUN rm -Rf ${CATALINA_WEBAPPS}/ROOT \
     && unzip -q /tmp/webservice.zip -d /tmp/ \
     && unzip -q /tmp/teigarage.zip -d /tmp/ \
@@ -71,7 +61,7 @@ RUN rm -Rf ${CATALINA_WEBAPPS}/ROOT \
     && rm /tmp/*.zip \
     && chmod 755 /my-docker-entrypoint.sh
 
-VOLUME ["/usr/share/xml/tei/stylesheet", "/usr/share/xml/tei/odd"]
+
 
 EXPOSE 8080 8081
 
