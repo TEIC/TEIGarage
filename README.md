@@ -43,6 +43,8 @@ Once it's running, you can point your browser at `http://localhost:8080/ege-webs
 
 ### requirements
 
+When the docker image is run, the folders you supply where your stylesheet and odd folders can be found locally will be checked (e.g. /your/path/to/TEI/P5), if they're empty the latest version will be downloaded into those folders. 
+
 For running the image you'll need to have the TEI Stylesheets as well as the TEI P5 sources.
 There are several ways to obtain these (see "Get and install a local copy" at http://www.tei-c.org/Guidelines/P5/), 
 one of them is to download the latest release of both 
