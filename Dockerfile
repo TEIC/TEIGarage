@@ -9,6 +9,12 @@ FROM tomcat:7
 
 LABEL org.opencontainers.image.source=https://github.com/teic/teigarage
 
+ARG URL_STYLESHEET_SOURCES=https://github.com/TEIC/Stylesheets/releases/download/v7.52.0/tei-xsl-7.52.0.zip
+ARG URL_ODD_SOURCES=https://github.com/TEIC/TEI/releases/download/P5_Release_4.3.0/tei-4.3.0.zip
+
+RUN echo "Stylesheet url set to ${URL_STYLESHEET_SOURCES}"
+RUN echo "Odd url set to ${URL_ODD_SOURCES}"
+
 ENV CATALINA_WEBAPPS ${CATALINA_HOME}/webapps
 ENV OFFICE_HOME /usr/lib/libreoffice
 
@@ -62,6 +68,23 @@ RUN rm -Rf ${CATALINA_WEBAPPS}/ROOT \
     && chmod 755 /my-docker-entrypoint.sh
 
 
+
+# download the required tei odd and stylesheet sources in the image and move them to the respective folders (/usr/share/xml/tei/)
+ADD ${URL_STYLESHEET_SOURCES} /tmp/stylesheet.zip
+RUN unzip /tmp/stylesheet.zip -d /tmp/stylesheet \
+    && rm /tmp/stylesheet.zip \
+    && mkdir -p /usr/share/xml/tei/stylesheet \
+    && cp -r /tmp/stylesheet/xml/tei/stylesheet/* /usr/share/xml/tei/stylesheet \
+    && rm -r /tmp/stylesheet
+
+ADD ${URL_ODD_SOURCES} /tmp/odd.zip 
+RUN unzip /tmp/odd.zip -d /tmp/odd \
+    && rm /tmp/odd.zip \
+    && mkdir -p /usr/share/xml/tei/odd \
+    && cp -r /tmp/odd/xml/tei/odd/* /usr/share/xml/tei/odd \
+    && rm -r /tmp/odd
+
+VOLUME ["/usr/share/xml/tei/stylesheet", "/usr/share/xml/tei/odd"]
 
 EXPOSE 8080 8081
 
