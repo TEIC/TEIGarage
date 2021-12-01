@@ -9,11 +9,8 @@ FROM tomcat:7
 
 LABEL org.opencontainers.image.source=https://github.com/teic/teigarage
 
-ARG VERSION_STYLESHEET_SOURCES=7.52.0
-ARG VERSION_ODD_SOURCES=4.3.0
-
-RUN echo "Stylesheet url set to ${URL_STYLESHEET_SOURCES}"
-RUN echo "Odd url set to ${URL_ODD_SOURCES}"
+ARG VERSION_STYLESHEET=latest
+ARG VERSION_ODD=latest
 
 ENV CATALINA_WEBAPPS ${CATALINA_HOME}/webapps
 ENV OFFICE_HOME /usr/lib/libreoffice
@@ -34,6 +31,7 @@ RUN apt-get update \
     build-essential \
     libgcc-8-dev \
     librsvg2-bin \
+    curl \
     && ln -s ${OFFICE_HOME} /usr/lib/openoffice \
     && rm -rf /var/lib/apt/lists/*
 
@@ -67,18 +65,26 @@ RUN rm -Rf ${CATALINA_WEBAPPS}/ROOT \
     && rm /tmp/*.zip \
     && chmod 755 /my-docker-entrypoint.sh
 
-ARG URL_ODD_SOURCES=https://github.com/TEIC/TEI/releases/download/P5_Release_4.3.0/tei-4.3.0.zip
-
-# download the required tei odd and stylesheet sources in the image and move them to the respective folders (/usr/share/xml/tei/)
-ADD https://github.com/TEIC/Stylesheets/releases/download/v${VERSION_STYLESHEET_SOURCES}/tei-xsl-${VERSION_STYLESHEET_SOURCES}.zip /tmp/stylesheet.zip
-RUN unzip /tmp/stylesheet.zip -d /tmp/stylesheet \
+#check if the version of stylesheet version is supplied, if not find out latest version
+RUN if [ "$VERSION_STYLESHEET" = "latest" ] ; then \
+    VERSION_STYLESHEET=$(curl "https://api.github.com/repos/TEIC/Stylesheets/releases/latest" | grep -Po '"tag_name": "v\K.*?(?=")'); \    
+    fi \
+    && echo "Stylesheet version set to ${VERSION_STYLESHEET}" \
+    # download the required tei odd and stylesheet sources in the image and move them to the respective folders (/usr/share/xml/tei/)
+    && curl -s -L -o /tmp/stylesheet.zip https://github.com/TEIC/Stylesheets/releases/download/v${VERSION_STYLESHEET}/tei-xsl-${VERSION_STYLESHEET}.zip \
+    && unzip /tmp/stylesheet.zip -d /tmp/stylesheet \
     && rm /tmp/stylesheet.zip \
     && mkdir -p /usr/share/xml/tei/stylesheet \
     && cp -r /tmp/stylesheet/xml/tei/stylesheet/* /usr/share/xml/tei/stylesheet \
     && rm -r /tmp/stylesheet
 
-ADD https://github.com/TEIC/TEI/releases/download/P5_Release_${VERSION_ODD_SOURCES}/tei-${VERSION_ODD_SOURCES}.zip /tmp/odd.zip 
-RUN unzip /tmp/odd.zip -d /tmp/odd \
+RUN if [ "$VERSION_ODD" = "latest" ] ; then \
+    VERSION_ODD=$(curl "https://api.github.com/repos/TEIC/TEI/releases/latest" | grep -Po '"tag_name": "P5_Release_\K.*?(?=")'); \   
+    fi \
+    && echo "Stylesheet version set to ${VERSION_ODD}" \
+    # download the required tei odd and stylesheet sources in the image and move them to the respective folders (/usr/share/xml/tei/)
+    && curl -s -L -o /tmp/odd.zip https://github.com/TEIC/TEI/releases/download/P5_Release_${VERSION_ODD}/tei-${VERSION_ODD}.zip \
+    && unzip /tmp/odd.zip -d /tmp/odd \
     && rm /tmp/odd.zip \
     && mkdir -p /usr/share/xml/tei/odd \
     && cp -r /tmp/odd/xml/tei/odd/* /usr/share/xml/tei/odd \
