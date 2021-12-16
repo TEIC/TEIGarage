@@ -82,7 +82,7 @@ RUN if [ "$VERSION_STYLESHEET" = "latest" ] ; then \
 RUN if [ "$VERSION_ODD" = "latest" ] ; then \
     VERSION_ODD=$(curl "https://api.github.com/repos/TEIC/TEI/releases/latest" | grep -Po '"tag_name": "P5_Release_\K.*?(?=")'); \   
     fi \
-    && echo "Stylesheet version set to ${VERSION_ODD}" \
+    && echo "ODD version set to ${VERSION_ODD}" \
     # download the required tei odd and stylesheet sources in the image and move them to the respective folders ( ${TEI_SOURCES_HOME})
     && curl -s -L -o /tmp/odd.zip https://github.com/TEIC/TEI/releases/download/P5_Release_${VERSION_ODD}/tei-${VERSION_ODD}.zip \
     && unzip /tmp/odd.zip -d /tmp/odd \
