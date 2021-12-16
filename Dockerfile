@@ -21,7 +21,7 @@ ENV TEI_SOURCES_HOME /usr/share/xml/tei
 USER root:root
 
 RUN apt-get update \
-    && apt-get install -y libreoffice \
+    && apt-get install --no-install-recommends -y libreoffice \
     ttf-dejavu \
     fonts-arphic-ukai \
     fonts-arphic-uming \
@@ -44,11 +44,6 @@ COPY docker-entrypoint.sh /my-docker-entrypoint.sh
 # log4j.xml configuration
 COPY log4j.xml /var/cache/oxgarage/log4j.xml
 
-# download artifacts to /tmp
-# these war-files are zipped so we need to unzip them twice at the next stage 
-ADD https://nightly.link/TEIC/TEIGarage/workflows/maven/main/artifact.zip /tmp/teigarage.zip
-ADD https://nightly.link/TEIC/ege-webclient/workflows/maven/main/artifact.zip /tmp/webservice.zip
-
 # we could download the artifacts directly from GitHub but then
 # we would need to pass in secrets since the GitHub API does not allow
 # anonyous access. The following code is only for reference:  
@@ -58,8 +53,12 @@ ADD https://nightly.link/TEIC/ege-webclient/workflows/maven/main/artifact.zip /t
 #    && unzip /tmp/teigarage.zip -d /tmp/ \
 #    && unzip /tmp/webservice.zip -d /tmp/  
 
+# download artifacts to /tmp and deploy them at ${CATALINA_WEBAPPS}
+# these war-files are zipped so we need to unzip them twice
 RUN rm -Rf ${CATALINA_WEBAPPS}/ROOT \
-    && unzip -q /tmp/webservice.zip -d /tmp/ \
+    && curl -Ls ${WEBSERVICE_ARTIFACT} -o /tmp/teigarage.zip \
+    && curl -Ls ${WEBCLIENT_ARTIFACT} -o /tmp/webclient.zip \
+    && unzip -q /tmp/webclient.zip -d /tmp/ \
     && unzip -q /tmp/teigarage.zip -d /tmp/ \
     && unzip -q /tmp/ege-webclient.war -d ${CATALINA_WEBAPPS}/ROOT/ \
     && unzip -q /tmp/teigarage.war -d ${CATALINA_WEBAPPS}/ege-webservice/ \
