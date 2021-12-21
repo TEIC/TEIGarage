@@ -1,9 +1,9 @@
 # TEIGarage
 
 [![Build Status](https://github.com/TEIC/TEIGarage/actions/workflows/maven.yml/badge.svg)](https://github.com/TEIC/TEIGarage/actions/workflows/maven.yml)
+[![Docker Automated build](https://github.com/TEIC/TEIGarage/actions/workflows/docker.yml/badge.svg)](https://github.com/TEIC/TEIGarage/actions/workflows/docker.yml)
 [![GitHub license](https://img.shields.io/github/license/teic/TEIGarage.svg)](https://github.com/TEIC/TEIGarage/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/TEIC/TEIGarage.svg)](https://github.com/TEIC/TEIGarage/releases)
-[![Docker Automated build](https://github.com/TEIC/TEIGarage/actions/workflows/docker.yml/badge.svg)](https://github.com/TEIC/TEIGarage/actions/workflows/docker.yml)
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
@@ -89,7 +89,7 @@ in your local copy of the TEIGarage.
   
 ### exposed ports
 
-The Docker image exposes two ports, 8080 and 8081. If you're running OxGarage over plain old HTTP, use the 8080 connector. 
+The Docker image exposes two ports, 8080 and 8081. If you're running TEIGarage over plain old HTTP, use the 8080 connector. 
 For HTTPS connections behind a 
 [SSL terminating Load Balancer](https://creechy.wordpress.com/2011/08/22/ssl-termination-load-balancers-java/), please use the 8081 connector.
 
@@ -106,10 +106,10 @@ The war file could also be build locally, see [Building with Maven](#building-wi
 
 Using a running Tomcat (or similar container), you can install the WAR file (see above) in the usual way. In this case, you will need to do some configuration manually:
 
- 1.   copy the file [ege-webservice/WEB-INF/lib/oxgarage.properties](https://github.com/TEIC/TEIGarage/blob/main/src/main/webapp/WEB-INF/lib/oxgarage.properties) to `/etc/oxgarage.properties`
+ 1.   copy the file [TEIGarage/WEB-INF/lib/oxgarage.properties](https://github.com/TEIC/TEIGarage/blob/main/src/main/webapp/WEB-INF/lib/oxgarage.properties) to `/etc/oxgarage.properties`
  2.   create a directory `/var/cache/oxgarage` and copy the file [log4j.xml](https://github.com/TEIC/TEIGarage/blob/main/log4j.xml) to there
  3.   make the directory owned by the Tomcat user, so that it can create files there: eg `chown -R tomcat6:tomcat6 /var/cache/oxgarage`
- 4.   make sure the TEI stylesheets and source are installed at `/usr/share/xml/tei` using the Debian file hierarchy standard; the distribution files mentioned in the [requirements](#requirements) are in the correct layout.
+ 4.   make sure the TEI stylesheets and source are installed at `/usr/share/xml/tei` using the Debian file hierarchy standard; the distribution files mentioned in the [TEI sources and stylesheets](#tei-sources-and-stylesheets) are in the correct layout.
 
 You'll probably need to restart your servlet container to make sure these changes take effect.
 
