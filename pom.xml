@@ -83,7 +83,7 @@
       <organization>PSNC</organization>
     </developer>
   </developers>
-  <reporting>
+  <!--<reporting>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -116,13 +116,13 @@
         </configuration>
       </plugin>
     </plugins>
-  </reporting>
+  </reporting>-->
   <build>
     <finalName>teigarage</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2-beta-4</version>
+        <version>3.3.0</version>
         <configuration>
           <descriptors>
             <descriptor>src/main/assembly/dist.xml</descriptor>
@@ -134,10 +134,10 @@
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.6.2</version>
+            <version>3.9.0</version>
             <configuration>
-                <source>1.8</source>
-                <target>1.8</target>
+                <source>11</source>
+                <target>11</target>
             </configuration>
         </plugin>
     </plugins>
@@ -145,14 +145,14 @@
   <dependencies>
     <dependency>
       <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.3</version>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>commons-fileupload</groupId>
       <artifactId>commons-fileupload</artifactId>
-      <version>1.2.1</version>
+      <version>1.4</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
