@@ -5,7 +5,7 @@
 # of both the ege-webclient and the TEIGarage (backend),
 # and installs it in a Tomcat application server
 #########################################
-FROM tomcat:7
+FROM tomcat:9-jdk11-openjdk
 
 LABEL org.opencontainers.image.source=https://github.com/teic/teigarage
 
