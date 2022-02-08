@@ -22,7 +22,7 @@ USER root:root
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -y libreoffice \
-    ttf-dejavu \
+    fonts-dejavu \
     fonts-arphic-ukai \
     fonts-arphic-uming \
     fonts-baekmuk \
@@ -32,7 +32,7 @@ RUN apt-get update \
     fonts-ipafont-mincho \
     cmake \
     build-essential \
-    libgcc-8-dev \
+    libgcc-10-dev \
     librsvg2-bin \
     curl \
     && ln -s ${OFFICE_HOME} /usr/lib/openoffice \
