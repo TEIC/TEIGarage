@@ -10,7 +10,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
+import javax.xml.parsers.SAXParserFactory;
 
 import pl.psnc.dl.ege.types.ConversionsPath;
 
@@ -46,7 +46,7 @@ public class ConversionsPropertiesHandler
 		throws RequestResolvingException
 	{
 		try {
-			XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+			XMLReader xmlReader = SAXParserFactory.newDefaultInstance().newSAXParser().getXMLReader();
 			xmlReader.setContentHandler(this);
 			if(xmlProperties != null){
 				xmlReader.parse(new InputSource(new ByteArrayInputStream(
