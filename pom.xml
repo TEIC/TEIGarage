@@ -170,25 +170,25 @@
     <dependency>
       <groupId>pl.psnc.dl.ege.validator</groupId>
       <artifactId>ege-validator</artifactId>
-      <version>0.3</version>
+      <version>0.4</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>pl.psnc.dl.ege</groupId>
       <artifactId>ege-xsl-converter</artifactId>
-      <version>0.4</version>
+      <version>0.5</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>pl.psnc.dl.ege.tei</groupId>
       <artifactId>tei-converter</artifactId>
-      <version>0.5</version>
+      <version>0.6</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>uk.ac.ox.oucs.oxgarage.oo</groupId>
       <artifactId>oo-converter</artifactId>
-      <version>1.0</version>
+      <version>1.1</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
