@@ -5,13 +5,13 @@
 # of both the ege-webclient and the TEIGarage (backend),
 # and installs it in a Tomcat application server
 #########################################
-FROM tomcat:7
+FROM tomcat:9-jdk11-openjdk
 
 LABEL org.opencontainers.image.source=https://github.com/teic/teigarage
 
 ARG VERSION_STYLESHEET=latest
 ARG VERSION_ODD=latest
-ARG WEBSERVICE_ARTIFACT=https://nightly.link/TEIC/TEIGarage/workflows/maven/main/artifact.zip
+ARG WEBSERVICE_ARTIFACT=https://nightly.link/TEIC/TEIGarage/workflows/maven/dev/artifact.zip
 ARG WEBCLIENT_ARTIFACT=https://nightly.link/TEIC/ege-webclient/workflows/maven/main/artifact.zip
 
 ENV CATALINA_WEBAPPS ${CATALINA_HOME}/webapps
@@ -22,7 +22,7 @@ USER root:root
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -y libreoffice \
-    ttf-dejavu \
+    fonts-dejavu \
     fonts-arphic-ukai \
     fonts-arphic-uming \
     fonts-baekmuk \
@@ -32,7 +32,7 @@ RUN apt-get update \
     fonts-ipafont-mincho \
     cmake \
     build-essential \
-    libgcc-8-dev \
+    libgcc-10-dev \
     librsvg2-bin \
     curl \
     && ln -s ${OFFICE_HOME} /usr/lib/openoffice \
