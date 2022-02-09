@@ -11,7 +11,7 @@ LABEL org.opencontainers.image.source=https://github.com/teic/teigarage
 
 ARG VERSION_STYLESHEET=latest
 ARG VERSION_ODD=latest
-ARG WEBSERVICE_ARTIFACT=https://nightly.link/TEIC/TEIGarage/workflows/dev/main/artifact.zip
+ARG WEBSERVICE_ARTIFACT=https://nightly.link/TEIC/TEIGarage/workflows/maven/dev/artifact.zip
 ARG WEBCLIENT_ARTIFACT=https://nightly.link/TEIC/ege-webclient/workflows/maven/main/artifact.zip
 
 ENV CATALINA_WEBAPPS ${CATALINA_HOME}/webapps
