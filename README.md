@@ -39,6 +39,8 @@ docker run --rm \
 
 Once it's running, you can point your browser at `http://localhost:8080/ege-webservice` for the webservice.
 
+You can also get the development version from DockerHub with `docker pull teic/teigarage:dev`.
+
 ### available parameters
 
 * **WEBSERVICE_URL** : The full URL of the RESTful *web service*. This is relevant for the *web client* (aka the GUI) if you are running the docker container on a different port or with a different URL.
