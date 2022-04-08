@@ -56,7 +56,7 @@ public class InfoServlet extends HttpServlet {
         // try to load from maven properties first
         try {
             Properties p = new Properties();
-            InputStream is = request.getServletContext().getResourceAsStream("/META-INF/maven/pl.psnc.dl.ege.webapp/meigarage/pom.properties");
+            InputStream is = request.getServletContext().getResourceAsStream("/META-INF/maven/pl.psnc.dl.ege.webapp/teigarage/pom.properties");
             if (is != null) {
                 p.load(is);
                 version = p.getProperty("version", "");
