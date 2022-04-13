@@ -1,12 +1,11 @@
-name: Docker
-
+name: docker
 on:
   workflow_run:
-    workflows: ["compile maven package"]
+    workflows: 
+      - maven
     branches: [ main, dev ]
     types: 
       - completed
-
 jobs:
   docker:
     name: build the Docker image
