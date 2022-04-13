@@ -2,8 +2,7 @@ name: Docker
 
 on:
   workflow_run:
-    workflows: ["compile maven package"]
-    branches: [ main, dev ]
+    workflows: ["Java CI with Maven"]
     types: 
       - completed
 
