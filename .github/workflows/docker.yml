@@ -1,13 +1,13 @@
 name: Docker
 
 on:
-  push:
+  workflow_run:
+    workflows: ["compile maven package"]
     branches: [ main, dev ]
-  pull_request:
-    branches: [ main, dev ]
+    types: 
+      - completed
 
 jobs:
-
   docker:
     name: build the Docker image
     runs-on: ubuntu-latest

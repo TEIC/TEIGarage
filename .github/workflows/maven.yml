@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-
+    name: compile maven package
     runs-on: ubuntu-latest
 
     steps:
