@@ -1,7 +1,9 @@
-name: Docker
+name: docker
 on:
   workflow_run:
-    workflows: [Java CI with Maven]
+    workflows: 
+      - maven
+    branches: [ main, dev ]
     types: 
       - completed
 jobs:
