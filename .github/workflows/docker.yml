@@ -1,11 +1,7 @@
 name: docker
 on:
-  workflow_run:
-    workflows: 
-      - maven
-    branches: [ main, dev ]
-    types: 
-      - completed
+  workflow_call:
+
 jobs:
   docker:
     name: build the Docker image

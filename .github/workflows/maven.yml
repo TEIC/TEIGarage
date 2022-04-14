@@ -32,3 +32,5 @@ jobs:
       with:
         name: artifact
         path: /home/runner/work/TEIGarage/TEIGarage/target/teigarage.war
+  call-workflow-2-in-local-repo:
+      uses: ./.github/workflows/docker.yml
