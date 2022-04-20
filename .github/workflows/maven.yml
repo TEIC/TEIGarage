@@ -32,5 +32,48 @@ jobs:
       with:
         name: artifact
         path: /home/runner/work/TEIGarage/TEIGarage/target/teigarage.war
-  call-workflow-2-in-local-repo:
-      uses: ./.github/workflows/docker.yml
+  docker:
+    name: build the Docker image
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # use the current user to log into the 
+      # GitHub container registry 
+      - name: Log in to GitHub Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      # Login against DockerHub registry
+      - name: Log in to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.PETERS_DOCKERHUB_USERNAME }}
+          password: ${{ secrets.PETERS_DOCKERHUB_TOKEN }}
+          
+      # Extract metadata (tags, labels) for Docker
+      # https://github.com/docker/metadata-action
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: |
+            ghcr.io/teic/teigarage
+            teic/teigarage
+          flavor: |
+            latest=${{ github.ref == 'refs/heads/main' }}
+            
+      # Build and push Docker image with Buildx (don't push on PR)
+      # https://github.com/docker/build-push-action
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
