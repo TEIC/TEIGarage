@@ -51,6 +51,7 @@ public class ConversionsPropertiesHandler
 			if(xmlProperties != null){
 				xmlReader.parse(new InputSource(new ByteArrayInputStream(
 					xmlProperties.getBytes())));
+					System.out.println(xmlProperties);
 			}
 		}
 		catch (Throwable e) {

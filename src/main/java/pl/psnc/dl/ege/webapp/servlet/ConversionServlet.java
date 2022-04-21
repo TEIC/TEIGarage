@@ -116,6 +116,7 @@ public class ConversionServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
 		try {
 			RequestResolver rr = new ConversionRequestResolver(request,
 					Method.GET);
@@ -402,31 +403,31 @@ public class ConversionServlet extends HttpServlet {
 	    IOResolver ior = EGEConfigurationManager.getInstance().getStandardIOResolver();
 	    // Check if there are any images to copy
 	    if(iter!=null && iter.hasNext()) {
-		// Create directory for images
-		File images = new File(buffDir + File.separator + imagesDirectory + File.separator);
-		images.mkdir();
-		File saveTo = null;
-		FileItemStream imageItem = null;
-		do { // Save all images to that directory
-		    imageItem = iter.next();
-		    // when input form for images is not empty, save images
-		    if(imageItem.getName()!=null && imageItem.getName().length()!=0) {
-			saveTo = new File(images + File.separator + imageItem.getName());
-			InputStream imgis = imageItem.openStream();
-			OutputStream imgos = new FileOutputStream(saveTo);
-			try {
-			    byte[] buf = new byte[1024];
-			    int len; 
-			    while ((len = imgis.read(buf)) > 0) { 
-				imgos.write(buf, 0, len); 
-			    } 
-			}
-			finally {
-			    imgis.close(); 
-			    imgos.close(); 
-			}
-		    }
-		} while(iter.hasNext());
+			// Create directory for images
+			File images = new File(buffDir + File.separator + imagesDirectory + File.separator);
+			images.mkdir();
+			File saveTo = null;
+			FileItemStream imageItem = null;
+			do { // Save all images to that directory
+				imageItem = iter.next();
+				// when input form for images is not empty, save images
+				if(imageItem.getName()!=null && imageItem.getName().length()!=0) {
+				saveTo = new File(images + File.separator + imageItem.getName());
+				InputStream imgis = imageItem.openStream();
+				OutputStream imgos = new FileOutputStream(saveTo);
+				try {
+					byte[] buf = new byte[1024];
+					int len;
+					while ((len = imgis.read(buf)) > 0) {
+					imgos.write(buf, 0, len);
+					}
+				}
+				finally {
+					imgis.close();
+					imgos.close();
+				}
+				}
+			} while(iter.hasNext());
 	    }
 	    zipFile = new File(EGEConstants.BUFFER_TEMP_PATH
 			       + File.separator + newTemp + EZP_EXT);
@@ -437,14 +438,15 @@ public class ConversionServlet extends HttpServlet {
 				     + File.separator + newTemp + ZIP_EXT);
 	    fos = new FileOutputStream(szipFile);
 	    try {
-		try {
-		    ege.performConversion(ins, fos, cpath);
-		} finally {
-		    fos.close();
-		}
+			try {
+				ege.performConversion(ins, fos, cpath);
+			} finally {
+				fos.close();
+			}
 		boolean isComplex = EGEIOUtils
 		    .isComplexZip(szipFile);
 		response.setContentType(APPLICATION_OCTET_STREAM);
+
 		if (isComplex) {
 		    String fileExt;
 		    if (cpath.getOutputDataType().getMimeType()
@@ -472,8 +474,11 @@ public class ConversionServlet extends HttpServlet {
 		} else {
 		    String fileExt = getMimeExtensionProvider()
 			.getFileExtension(cpath.getOutputDataType().getMimeType());
+
+		    response.setContentType(cpath.getOutputDataType().getMimeType());
 		    response.setHeader("Content-Disposition",
 				       "attachment; filename=\"" + fname + fileExt + "\"");
+
 		    os = response.getOutputStream();
 		    EGEIOUtils.unzipSingleFile(new ZipFile(szipFile), os);
 		}
