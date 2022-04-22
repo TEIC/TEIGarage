@@ -501,7 +501,8 @@ public class ConversionServlet extends HttpServlet {
 			StringBuffer sb = new StringBuffer();
 			sb.append("<properties>");
 			sb.append(properties);
-			sb.append("<fileInfo name=\"" + fileName + "\"></fileInfo></properties>");		
+			sb.append("<fileInfo name=\"" + fileName + "\"></fileInfo></properties>");
+			LOGGER.debug(sb.toString());
 			ConversionsPropertiesHandler cpp = new ConversionsPropertiesHandler(sb.toString());
 			cpp.applyPathProperties(cP);
 		} else {// apply empty properties if no properties were provided
