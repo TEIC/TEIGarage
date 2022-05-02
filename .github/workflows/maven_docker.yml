@@ -46,11 +46,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: artifact
-          path: target/
+          path: artifact/
 
       - name: Display structure of downloaded files
         run: ls -R
-        working-directory: target
+        working-directory: artifact
 
       # use the current user to log into the 
       # GitHub container registry 
