@@ -46,11 +46,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: artifact
-          path: target
+          path: target/
 
       - name: Display structure of downloaded files
         run: ls -R
         working-directory: target
+
+      - run: cat target/teigarage.war
 
       # use the current user to log into the 
       # GitHub container registry 
