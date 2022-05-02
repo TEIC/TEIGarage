@@ -41,6 +41,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+       
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: teigarage.war
+          path: target
 
       # use the current user to log into the 
       # GitHub container registry 
@@ -79,3 +85,5 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            BUILDTYPE=github
