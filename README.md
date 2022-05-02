@@ -174,4 +174,3 @@ To authenticate when building locally, create a [GitHub PAT](https://docs.github
 </settings>
 
 ```
-
