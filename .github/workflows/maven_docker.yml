@@ -47,9 +47,10 @@ jobs:
         with:
           name: artifact
           path: target
+
       - name: Display structure of downloaded files
-          run: ls -R
-          working-directory: target
+        run: ls -R
+        working-directory: target
 
       # use the current user to log into the 
       # GitHub container registry 
