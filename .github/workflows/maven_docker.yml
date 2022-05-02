@@ -52,8 +52,6 @@ jobs:
         run: ls -R
         working-directory: target
 
-      - run: cat target/teigarage.war
-
       # use the current user to log into the 
       # GitHub container registry 
       - name: Log in to GitHub Container registry
