@@ -21,7 +21,7 @@ ENV TEI_SOURCES_HOME /usr/share/xml/tei
 
 USER root:root
 
-COPY target/teigarage.war /tmp/teigarage.war
+COPY log4j.xml target/teigarage.wa[r] /tmp/
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -y libreoffice \
@@ -58,9 +58,10 @@ COPY log4j.xml /var/cache/oxgarage/log4j.xml
 
 # download artifacts to /tmp and deploy them at ${CATALINA_WEBAPPS}
 # these war-files are zipped so we need to unzip them twice
-RUN if [ "$BUILDTYPE" = "github" ] ; then \
-    cp target/teigarage.war -d /tmp/; \
-    else \
+#conditional copy in docker needs a strange hack
+COPY log4j.xml target/teigarage.wa[r] /tmp/
+
+RUN if [ "$BUILDTYPE" = "local" ] ; then \
     curl -Ls ${WEBSERVICE_ARTIFACT} -o /tmp/teigarage.zip \
     && unzip -q /tmp/teigarage.zip -d /tmp/; \
     fi \
