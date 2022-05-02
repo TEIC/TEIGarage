@@ -13,7 +13,6 @@
     * [Without Docker](#installing-without-docker)
 * [Building with Maven](#building-with-maven)
 
-
 # About
 
 TEIGarage is a webservice and RESTful service to transform, convert and validate various formats, focussing on the [TEI](https://tei-c.org/) format.
