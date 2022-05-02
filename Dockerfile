@@ -21,7 +21,7 @@ ENV TEI_SOURCES_HOME /usr/share/xml/tei
 
 USER root:root
 
-COPY target/teigarage.war -d /tmp/teigarage.war
+COPY target/teigarage.war /tmp/teigarage.war
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -y libreoffice \
