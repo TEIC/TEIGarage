@@ -57,7 +57,7 @@ COPY log4j.xml /var/cache/oxgarage/log4j.xml
 # download artifacts to /tmp and deploy them at ${CATALINA_WEBAPPS}
 # these war-files are zipped so we need to unzip them twice
 RUN if [ "$BUILDTYPE" = "github" ] ; then \
-    cp /target/teigarage.war -d /tmp/; \
+    cp target/teigarage.war -d /tmp/; \
     else \
     curl -Ls ${WEBSERVICE_ARTIFACT} -o /tmp/teigarage.zip \
     && unzip -q /tmp/teigarage.zip -d /tmp/; \
