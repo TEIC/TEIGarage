@@ -13,6 +13,7 @@ ARG VERSION_STYLESHEET=latest
 ARG VERSION_ODD=latest
 ARG WEBSERVICE_ARTIFACT=https://nightly.link/TEIC/TEIGarage/workflows/maven_docker/dev/artifact.zip
 ARG WEBCLIENT_ARTIFACT=https://nightly.link/TEIC/ege-webclient/workflows/maven/main/artifact.zip
+ARG BUILDTYPE=local
 
 ENV CATALINA_WEBAPPS ${CATALINA_HOME}/webapps
 ENV OFFICE_HOME /usr/lib/libreoffice
@@ -55,16 +56,20 @@ COPY log4j.xml /var/cache/oxgarage/log4j.xml
 
 # download artifacts to /tmp and deploy them at ${CATALINA_WEBAPPS}
 # these war-files are zipped so we need to unzip them twice
-RUN rm -Rf ${CATALINA_WEBAPPS}/ROOT \
-    && curl -Ls ${WEBSERVICE_ARTIFACT} -o /tmp/teigarage.zip \
+RUN if [ "$BUILDTYPE" = "github" ] ; then \
+    cp /target/teigarage.war -d /tmp/; \
+    else \
+    curl -Ls ${WEBSERVICE_ARTIFACT} -o /tmp/teigarage.zip \
+    && unzip -q /tmp/teigarage.zip -d /tmp/; \
+    fi \
+    && unzip -q /tmp/teigarage.war -d ${CATALINA_WEBAPPS}/ege-webservice/ \
+    && rm -Rf ${CATALINA_WEBAPPS}/ROOT \
     && curl -Ls ${WEBCLIENT_ARTIFACT} -o /tmp/webclient.zip \
     && unzip -q /tmp/webclient.zip -d /tmp/ \
-    && unzip -q /tmp/teigarage.zip -d /tmp/ \
     && unzip -q /tmp/ege-webclient.war -d ${CATALINA_WEBAPPS}/ROOT/ \
-    && unzip -q /tmp/teigarage.war -d ${CATALINA_WEBAPPS}/ege-webservice/ \
     && cp ${CATALINA_WEBAPPS}/ege-webservice/WEB-INF/lib/oxgarage.properties /etc/ \
-    && rm /tmp/*.war \
-    && rm /tmp/*.zip \
+    && rm -f /tmp/*.war \
+    && rm -f /tmp/*.zip \
     && chmod 755 /my-docker-entrypoint.sh
 
 #check if the version of stylesheet version is supplied, if not find out latest version

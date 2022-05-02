@@ -27,12 +27,14 @@ public class InfoServlet extends HttpServlet {
         try {
             //create info json object
             JSONObject json_info = new JSONObject();
-            json_info.put("version", getVersion(request));
-            json_info.put("serverinfo", serverInfo);
+            json_info.put("webservice-version", getVersion(request));
+            json_info.put("server-version", serverInfo);
+            json_info.put("os-info", System.getProperty("os.name") + " " + System.getProperty("os.version"));
+            json_info.put("java-version", Runtime.version().toString());
             //resolve request and catch any errors
             RequestResolver rr = new InfoRequestResolver(request,
                     Method.GET);
-            //print available validation options
+            //print available info
             printInfo(response, rr, json_info);
         }
         catch (RequestResolvingException ex) {
@@ -83,6 +85,8 @@ public class InfoServlet extends HttpServlet {
 
         return version;
     }
+
+
 
     /*
      * Print info response
