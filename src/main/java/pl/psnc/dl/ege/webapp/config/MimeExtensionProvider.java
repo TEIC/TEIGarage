@@ -10,7 +10,9 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 /**
  * Provides mime to file extension map.
@@ -27,7 +29,10 @@ public final class MimeExtensionProvider extends DefaultHandler
 	
 	private MimeExtensionProvider(String configFile){
 		try{
-			XMLReader xmlReader = XMLReaderFactory.createXMLReader();
+			SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+			parserFactory.setNamespaceAware(true);
+			SAXParser parser = parserFactory.newSAXParser();
+			XMLReader xmlReader = parser.getXMLReader();
 			xmlReader.setContentHandler(this);
 			xmlReader.parse(new InputSource(new FileInputStream(new File(configFile))));
 		}catch(Throwable e){

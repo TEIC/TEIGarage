@@ -1,9 +1,8 @@
 # TEIGarage
 
-[![Build Status](https://github.com/TEIC/TEIGarage/actions/workflows/maven.yml/badge.svg)](https://github.com/TEIC/TEIGarage/actions/workflows/maven.yml)
+[![Build Status](https://github.com/TEIC/TEIGarage/actions/workflows/maven_docker.yml/badge.svg)](https://github.com/TEIC/TEIGarage/actions/workflows/maven_docker.yml)
 [![GitHub license](https://img.shields.io/github/license/teic/TEIGarage.svg)](https://github.com/TEIC/TEIGarage/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/TEIC/TEIGarage.svg)](https://github.com/TEIC/TEIGarage/releases)
-[![Docker Automated build](https://github.com/TEIC/TEIGarage/actions/workflows/docker.yml/badge.svg)](https://github.com/TEIC/TEIGarage/actions/workflows/docker.yml)
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
@@ -13,7 +12,6 @@
     * [With Docker](#installing-with-docker)
     * [Without Docker](#installing-without-docker)
 * [Building with Maven](#building-with-maven)
-
 
 # About
 
@@ -26,36 +24,20 @@ Further information on the code structure of MEIGarage and TEIGarage can be foun
 
 ## Installing with Docker
 
-With Docker installed, a readymade image can be fetched from the [GitHub Action](https://github.com/TEIC/TEIGarage/blob/main/.github/workflows/docker.yml).
+With Docker installed, a readymade image can be fetched from the [GitHub Action](https://github.com/TEIC/TEIGarage/blob/main/.github/workflows/maven_docker.yml).
 
 `docker pull ghcr.io/teic/teigarage:latest`
 
 ```bash
 docker run --rm \
-    -p 8080:8080 \
-    -v /usr/share/xml/tei/stylesheet:/usr/share/xml/tei/stylesheet \
-    -v /your/path/to/TEI/P5:/usr/share/xml/tei/odd    
+    -p 8080:8080 \   
     -e WEBSERVICE_URL=http://localhost:8080/ege-webservice/  \
     --name teigarage ghcr.io/teic/teigarage
 ```
 
-Once it's running, you can point your browser at `http://localhost:8080/ege-webservice` for the webservice.
+Once it's running, you can point your browser at `http://localhost:8080` for the graphical user interface and  http://localhost:8080/ege-webservice` for the webservice.
 
-### requirements
-
-For running the image you'll need to have the TEI Stylesheets as well as the TEI P5 sources.
-There are several ways to obtain these (see "Get and install a local copy" at http://www.tei-c.org/Guidelines/P5/), 
-one of them is to download the latest release of both 
-[TEI](https://github.com/TEIC/TEI/releases) and [Stylesheets](https://github.com/TEIC/Stylesheets/releases) from GitHub. 
-Then, the Stylesheets' root directory (i.e. which holds the `profiles` directory) must be mapped to `/usr/share/xml/tei/stylesheet` whereas for the 
-P5 sources you'll need to find the subdirectory which holds the file `p5subset.xml` and map this to `/usr/share/xml/tei/odd`; (should be `xml/tei/odd`).
-
-At the following places the respective git repositories need to be cloned (or symlinks need to be created to point at the correct places):
-
-| location on server | data to be added there |
-| --------------- | --------------- | 
-| /usr/share/xml/tei/stylesheet |  https://github.com/TEIC/Stylesheets/releases/latest | 
-| /usr/share/xml/tei/odd | https://github.com/TEIC/TEI/releases/latest |
+You can also get the development version from DockerHub with `docker pull teic/teigarage:dev`.
 
 ### available parameters
 
@@ -64,10 +46,50 @@ At the following places the respective git repositories need to be cloned (or sy
 * **-v** Stylesheet paths : The local path to the stylesheets and sources can be mounted to /usr/share/xml/tei/ using the --volume parameter, using e.g.  `-v /your/path/to/Stylesheets:/usr/share/xml/tei/stylesheet \ 
     -v /your/path/to/TEI/P5:/usr/share/xml/tei/odd`
 
+### TEI sources and stylesheets
 
+When the docker image is build, the latest releases of the TEI Sources and Stylesheets are added to the image.
+
+If you want to use another version of the sources or stylesheets, you can mount the local folders where your custom files are located when running the Docker image. 
+
+There are several ways to obtain these (see "Get and install a local copy" at http://www.tei-c.org/Guidelines/P5/), 
+one of them is to download the latest release of both 
+[TEI](https://github.com/TEIC/TEI/releases) and [Stylesheets](https://github.com/TEIC/Stylesheets/releases) from GitHub. 
+Then, the Stylesheets' root directory (i.e. which holds the `profiles` directory) must be mapped to `/usr/share/xml/tei/stylesheet` whereas for the 
+P5 sources you'll need to find the subdirectory which holds the file `p5subset.xml` and map this to `/usr/share/xml/tei/odd`; (should be `xml/tei/odd`).
+
+The respective git repositories:
+
+| location in docker image | data located there |
+| --------------- | --------------- | 
+| /usr/share/xml/tei/stylesheet |  https://github.com/TEIC/Stylesheets/releases/latest | 
+| /usr/share/xml/tei/odd | https://github.com/TEIC/TEI/releases/latest |
+
+Using your local folders for the TEI sources and stylesheets: 
+
+```bash
+docker run --rm \
+    -p 8080:8080 \   
+    -e WEBSERVICE_URL=http://localhost:8080/ege-webservice/  \  
+    -v /your/path/to/tei/stylesheet:/usr/share/xml/tei/stylesheet \
+    -v /your/path/to/tei/odd:/usr/share/xml/tei/odd  \    
+    --name teigarage ghcr.io/teic/teigarage
+```
+
+You can also change the version that is used by supplying different version number when building the image locally running something like
+
+```bash
+docker build \
+--build-arg VERSION_STYLESHEET=7.52.0 \
+--build-arg VERSION_ODD=4.3.0 \
+.
+```
+
+in your local copy of the TEIGarage. 
+  
 ### exposed ports
 
-The Docker image exposes two ports, 8080 and 8081. If you're running OxGarage over plain old HTTP, use the 8080 connector. 
+The Docker image exposes two ports, 8080 and 8081. If you're running TEIGarage over plain old HTTP, use the 8080 connector. 
 For HTTPS connections behind a 
 [SSL terminating Load Balancer](https://creechy.wordpress.com/2011/08/22/ssl-termination-load-balancers-java/), please use the 8081 connector.
 
@@ -84,10 +106,10 @@ The war file could also be build locally, see [Building with Maven](#building-wi
 
 Using a running Tomcat (or similar container), you can install the WAR file (see above) in the usual way. In this case, you will need to do some configuration manually:
 
- 1.   copy the file [ege-webservice/WEB-INF/lib/oxgarage.properties](https://github.com/TEIC/TEIGarage/blob/main/src/main/webapp/WEB-INF/lib/oxgarage.properties) to `/etc/oxgarage.properties`
+ 1.   copy the file [TEIGarage/WEB-INF/lib/oxgarage.properties](https://github.com/TEIC/TEIGarage/blob/main/src/main/webapp/WEB-INF/lib/oxgarage.properties) to `/etc/oxgarage.properties`
  2.   create a directory `/var/cache/oxgarage` and copy the file [log4j.xml](https://github.com/TEIC/TEIGarage/blob/main/log4j.xml) to there
  3.   make the directory owned by the Tomcat user, so that it can create files there: eg `chown -R tomcat6:tomcat6 /var/cache/oxgarage`
- 4.   make sure the TEI stylesheets and source are installed at `/usr/share/xml/tei` using the Debian file hierarchy standard; the distribution files mentioned in the [requirements](#requirements) are in the correct layout.
+ 4.   make sure the TEI stylesheets and source are installed at `/usr/share/xml/tei` using the Debian file hierarchy standard; the distribution files mentioned in the [TEI sources and stylesheets](#tei-sources-and-stylesheets) are in the correct layout.
 
 You'll probably need to restart your servlet container to make sure these changes take effect.
 
@@ -152,4 +174,3 @@ To authenticate when building locally, create a [GitHub PAT](https://docs.github
 </settings>
 
 ```
-

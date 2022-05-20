@@ -5,19 +5,25 @@
 # of both the ege-webclient and the TEIGarage (backend),
 # and installs it in a Tomcat application server
 #########################################
-FROM tomcat:7
+FROM tomcat:9-jdk11-openjdk
 
 LABEL org.opencontainers.image.source=https://github.com/teic/teigarage
 
+ARG VERSION_STYLESHEET=latest
+ARG VERSION_ODD=latest
+ARG WEBSERVICE_ARTIFACT=https://nightly.link/TEIC/TEIGarage/workflows/maven_docker/dev/artifact.zip
+ARG WEBCLIENT_ARTIFACT=https://nightly.link/TEIC/ege-webclient/workflows/maven/main/artifact.zip
+ARG BUILDTYPE=local
+
 ENV CATALINA_WEBAPPS ${CATALINA_HOME}/webapps
 ENV OFFICE_HOME /usr/lib/libreoffice
-ENV STYLESHEETS_HOME /usr/share/xml/tei
+ENV TEI_SOURCES_HOME /usr/share/xml/tei
 
 USER root:root
 
 RUN apt-get update \
-    && apt-get install -y libreoffice \
-    ttf-dejavu \
+    && apt-get install --no-install-recommends -y libreoffice \
+    fonts-dejavu \
     fonts-arphic-ukai \
     fonts-arphic-uming \
     fonts-baekmuk \
@@ -27,22 +33,17 @@ RUN apt-get update \
     fonts-ipafont-mincho \
     cmake \
     build-essential \
-    libgcc-8-dev \
+    libgcc-10-dev \
     librsvg2-bin \
+    curl \
     && ln -s ${OFFICE_HOME} /usr/lib/openoffice \
-    && rm -rf /var/lib/apt/lists/* \
-    && mkdir -p ${STYLESHEETS_HOME}
+    && rm -rf /var/lib/apt/lists/*
 
 # entrypoint script
 COPY docker-entrypoint.sh /my-docker-entrypoint.sh
 
 # log4j.xml configuration
 COPY log4j.xml /var/cache/oxgarage/log4j.xml
-
-# download artifacts to /tmp
-# these war-files are zipped so we need to unzip them twice at the next stage 
-ADD https://nightly.link/TEIC/TEIGarage/workflows/maven/main/artifact.zip /tmp/teigarage.zip
-ADD https://nightly.link/TEIC/ege-webclient/workflows/maven/main/artifact.zip /tmp/webservice.zip
 
 # we could download the artifacts directly from GitHub but then
 # we would need to pass in secrets since the GitHub API does not allow
@@ -53,23 +54,49 @@ ADD https://nightly.link/TEIC/ege-webclient/workflows/maven/main/artifact.zip /t
 #    && unzip /tmp/teigarage.zip -d /tmp/ \
 #    && unzip /tmp/webservice.zip -d /tmp/  
 
-# download TEI resources to /tmp
-ADD https://github.com/TEIC/Stylesheets/releases/download/v7.52.0/tei-xsl-7.52.0.zip /tmp/stylesheet.zip
-ADD https://github.com/TEIC/TEI/releases/download/P5_Release_4.3.0/tei-4.3.0.zip /tmp/odd.zip
+# download artifacts to /tmp and deploy them at ${CATALINA_WEBAPPS}
+# these war-files are zipped so we need to unzip them twice
+#conditional copy in docker needs a strange hack
+COPY log4j.xml artifact/teigarage.wa[r] /tmp/
 
-# unzip TEI resources and move them to correct folder
-RUN unzip -q /tmp/stylesheet.zip -d ${STYLESHEETS_HOME}/stylesheet \
-    && unzip -q /tmp/odd.zip -d ${STYLESHEETS_HOME}/odd
-
-RUN rm -Rf ${CATALINA_WEBAPPS}/ROOT \
-    && unzip -q /tmp/webservice.zip -d /tmp/ \
-    && unzip -q /tmp/teigarage.zip -d /tmp/ \
-    && unzip -q /tmp/ege-webclient.war -d ${CATALINA_WEBAPPS}/ROOT/ \
+RUN if [ "$BUILDTYPE" = "local" ] ; then \
+    curl -Ls ${WEBSERVICE_ARTIFACT} -o /tmp/teigarage.zip \
+    && unzip -o -q /tmp/teigarage.zip -d /tmp/; \
+    fi \
     && unzip -q /tmp/teigarage.war -d ${CATALINA_WEBAPPS}/ege-webservice/ \
+    && rm -Rf ${CATALINA_WEBAPPS}/ROOT \
+    && curl -Ls ${WEBCLIENT_ARTIFACT} -o /tmp/webclient.zip \
+    && unzip -q /tmp/webclient.zip -d /tmp/ \
+    && unzip -q /tmp/ege-webclient.war -d ${CATALINA_WEBAPPS}/ROOT/ \
     && cp ${CATALINA_WEBAPPS}/ege-webservice/WEB-INF/lib/oxgarage.properties /etc/ \
-    && rm /tmp/*.war \
-    && rm /tmp/*.zip \
+    && rm -f /tmp/*.war \
+    && rm -f /tmp/*.zip \
     && chmod 755 /my-docker-entrypoint.sh
+
+#check if the version of stylesheet version is supplied, if not find out latest version
+RUN if [ "$VERSION_STYLESHEET" = "latest" ] ; then \
+    VERSION_STYLESHEET=$(curl "https://api.github.com/repos/TEIC/Stylesheets/releases/latest" | grep -Po '"tag_name": "v\K.*?(?=")'); \    
+    fi \
+    && echo "Stylesheet version set to ${VERSION_STYLESHEET}" \
+    # download the required tei odd and stylesheet sources in the image and move them to the respective folders (${TEI_SOURCES_HOME})
+    && curl -s -L -o /tmp/stylesheet.zip https://github.com/TEIC/Stylesheets/releases/download/v${VERSION_STYLESHEET}/tei-xsl-${VERSION_STYLESHEET}.zip \
+    && unzip /tmp/stylesheet.zip -d /tmp/stylesheet \
+    && rm /tmp/stylesheet.zip \
+    && mkdir -p  ${TEI_SOURCES_HOME}/stylesheet \
+    && cp -r /tmp/stylesheet/xml/tei/stylesheet/*  ${TEI_SOURCES_HOME}/stylesheet \
+    && rm -r /tmp/stylesheet
+
+RUN if [ "$VERSION_ODD" = "latest" ] ; then \
+    VERSION_ODD=$(curl "https://api.github.com/repos/TEIC/TEI/releases/latest" | grep -Po '"tag_name": "P5_Release_\K.*?(?=")'); \   
+    fi \
+    && echo "ODD version set to ${VERSION_ODD}" \
+    # download the required tei odd and stylesheet sources in the image and move them to the respective folders ( ${TEI_SOURCES_HOME})
+    && curl -s -L -o /tmp/odd.zip https://github.com/TEIC/TEI/releases/download/P5_Release_${VERSION_ODD}/tei-${VERSION_ODD}.zip \
+    && unzip /tmp/odd.zip -d /tmp/odd \
+    && rm /tmp/odd.zip \
+    && mkdir -p  ${TEI_SOURCES_HOME}/odd \
+    && cp -r /tmp/odd/xml/tei/odd/*  ${TEI_SOURCES_HOME}/odd \
+    && rm -r /tmp/odd
 
 VOLUME ["/usr/share/xml/tei/stylesheet", "/usr/share/xml/tei/odd"]
 
