@@ -1,0 +1,61 @@
+openapi: 3.0.1
+info:
+  title: EGE Webservice
+  description: EGE Webservice API to convert and validate TEI related data.
+  contact:
+    name: Anne Ferger
+    url: https://teigarage.tei-c.de/
+    email: anne.ferger@upb.de
+  license:
+    name: ' GPL-3.0 license'
+    url: https://www.gnu.org/licenses/gpl-3.0.en.html
+  version: "1.0"
+externalDocs:
+  description: find out more at GitHub
+  url: https://github.com/TEIC/TEIGarage
+tags:
+- name: ege-webservice
+  description: "Conversion, Validation and Customization"
+paths:
+  /Conversions:
+    get:
+      tags:
+      - ege-webservice
+      summary: Get conversions
+      description: Return list of input data types and lists of possible conversions
+        paths
+      operationId: doGet
+      responses:
+        "200":
+          description: List of possible conversions is returned
+          content:
+            '*/*':
+              schema:
+                type: string
+        "405":
+          description: Wrong method error message if the method is called wrong
+          content:
+            '*/*':
+              schema:
+                type: string
+    post:
+      tags:
+      - ege-webservice
+      summary: Do conversions
+      description: Convert files into different data formats
+      operationId: doPost
+      parameters:
+      - name: properties
+        in: query
+        description: Conversion properties
+        schema:
+          type: string
+      responses:
+        "200":
+          description: The content of the converted file
+        "405":
+          description: Wrong method error message if the method is called wrong
+          content:
+            '*/*':
+              schema:
+                type: string

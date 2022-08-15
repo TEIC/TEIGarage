@@ -20,3 +20,4 @@ target/
 !Dockerfile
 !.dockerignore
 !docker-entrypoint.sh
+!src/main/webapp/*

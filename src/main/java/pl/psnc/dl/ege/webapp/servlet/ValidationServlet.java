@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import pl.psnc.dl.ege.EGE;
 import pl.psnc.dl.ege.EGEImpl;
@@ -32,7 +33,7 @@ public class ValidationServlet
 	extends HttpServlet
 {
 
-	private static final Logger LOGGER = Logger
+	private static final Logger LOGGER = LogManager
 			.getLogger(ValidationServlet.class);
 
 	private static final long serialVersionUID = 1L;
