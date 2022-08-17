@@ -91,7 +91,6 @@ import pl.psnc.dl.ege.webapp.request.RequestResolvingException;
 },
         externalDocs = @ExternalDocumentation(description = "find out more at GitHub", url = "https://github.com/TEIC/TEIGarage")
 )
-@Path("/Conversions")
 public class ConversionServlet extends HttpServlet {
 
 	private static final String imagesDirectory = "media";
@@ -145,7 +144,8 @@ public class ConversionServlet extends HttpServlet {
      */
     @Override
     @GET
-    @Operation(summary = "Get conversions", tags = "ege-webservice", description = "Return list of input data types and lists of possible conversions paths", responses = {
+	@Path("/Conversions")
+    @Operation(summary = "Get all available conversions", tags = "ege-webservice", description = "Return list of input data types and lists of possible conversions paths", responses = {
             @ApiResponse(
                     description = "List of possible conversions is returned",
                     responseCode = "200",
@@ -304,6 +304,7 @@ public class ConversionServlet extends HttpServlet {
 	 */
     @Override
     @POST
+	@Path("/Conversions/{input-document-type}/{output-document-type}")
     @Operation(summary = "Do conversions", tags = "ege-webservice", description = "Convert files into different data formats",
             parameters = {
                     @Parameter(
@@ -316,7 +317,8 @@ public class ConversionServlet extends HttpServlet {
             responses = {
                     @ApiResponse(
                             description = "The content of the converted file",
-                            responseCode = "200"),
+                            responseCode = "200",
+							response = Boolean.class),
                     @ApiResponse(
                             description = "Wrong method error message if the method is called wrong",
                             responseCode = "405",
