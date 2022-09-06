@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
 
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
@@ -45,6 +46,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+import org.json.XML;
 import pl.psnc.dl.ege.EGE;
 import pl.psnc.dl.ege.EGEImpl;
 import pl.psnc.dl.ege.configuration.EGEConfigurationManager;
@@ -91,7 +93,6 @@ import pl.psnc.dl.ege.webapp.request.RequestResolvingException;
 },
         externalDocs = @ExternalDocumentation(description = "find out more at GitHub", url = "https://github.com/TEIC/TEIGarage")
 )
-@Path("/Conversions")
 public class ConversionServlet extends HttpServlet {
 
 	private static final String imagesDirectory = "media";
@@ -145,15 +146,15 @@ public class ConversionServlet extends HttpServlet {
      */
     @Override
     @GET
-    @Operation(summary = "Get conversions", tags = "ege-webservice", description = "Return list of input data types and lists of possible conversions paths", responses = {
+	@Path("ege-webservice/Conversions")
+    @Operation(summary = "Get all available conversions", tags = "ege-webservice", description = "Return list of input data types and lists of possible conversions paths", responses = {
             @ApiResponse(
                     description = "List of possible conversions is returned",
                     responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = String.class))),
+                    content = @Content(mediaType = "text/xml", schema = @Schema(implementation = XML.class))),
             @ApiResponse(
                     description = "Wrong method error message if the method is called wrong",
-                    responseCode = "405",
-                    content = @Content(schema = @Schema(implementation = String.class)))
+                    responseCode = "405")
     })
     public void doGet(
             @Parameter(hidden = true) HttpServletRequest request,
@@ -304,6 +305,7 @@ public class ConversionServlet extends HttpServlet {
 	 */
     @Override
     @POST
+	@Path("ege-webservice/Conversions/{input-document-type}/{output-document-type}")
     @Operation(summary = "Do conversions", tags = "ege-webservice", description = "Convert files into different data formats",
             parameters = {
                     @Parameter(
@@ -311,17 +313,30 @@ public class ConversionServlet extends HttpServlet {
                             description = "Conversion properties",
                             required = false,
                             name = "properties",
-                            schema = @Schema(implementation = String.class))
+                            schema = @Schema(type= "string", format="text/xml")),
+					@Parameter(
+							in = ParameterIn.PATH,
+							description = "Input document type",
+							required = true,
+							name = "input-document-type",
+							schema = @Schema(type= "string", format="text/plain")),
+					@Parameter(
+							in = ParameterIn.PATH,
+							description = "Output document type",
+							required = true,
+							name = "output-document-type",
+							schema = @Schema(type= "string", format="text/plain"))
             },
             responses = {
                     @ApiResponse(
                             description = "The content of the converted file",
-                            responseCode = "200"),
+                            responseCode = "200",
+							content = @Content(mediaType = "text/xml", schema = @Schema(implementation = XML.class))),
                     @ApiResponse(
                             description = "Wrong method error message if the method is called wrong",
-                            responseCode = "405",
-                            content = @Content(schema = @Schema(implementation = String.class)))
+                            responseCode = "405")
             })
+
     public void doPost(
             @Parameter(hidden = true) HttpServletRequest request,
             @Parameter(hidden = true) HttpServletResponse response) throws ServletException, IOException {

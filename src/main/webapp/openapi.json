@@ -23,35 +23,30 @@
     "description" : "Conversion, Validation and Customization"
   } ],
   "paths" : {
-    "/Conversions" : {
+    "/ege-webservice/Conversions" : {
       "get" : {
         "tags" : [ "ege-webservice" ],
-        "summary" : "Get conversions",
+        "summary" : "Get all available conversions",
         "description" : "Return list of input data types and lists of possible conversions paths",
         "operationId" : "doGet",
         "responses" : {
           "200" : {
             "description" : "List of possible conversions is returned",
             "content" : {
-              "*/*" : {
+              "text/xml" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/XML"
                 }
               }
             }
           },
           "405" : {
-            "description" : "Wrong method error message if the method is called wrong",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "description" : "Wrong method error message if the method is called wrong"
           }
         }
-      },
+      }
+    },
+    "/ege-webservice/Conversions/{input-document-type}/{output-document-type}" : {
       "post" : {
         "tags" : [ "ege-webservice" ],
         "summary" : "Do conversions",
@@ -62,24 +57,2078 @@
           "in" : "query",
           "description" : "Conversion properties",
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "format" : "text/xml"
+          }
+        }, {
+          "name" : "input-document-type",
+          "in" : "path",
+          "description" : "Input document type",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "text/plain"
+          }
+        }, {
+          "name" : "output-document-type",
+          "in" : "path",
+          "description" : "Output document type",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "text/plain"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "The content of the converted file"
+            "description" : "The content of the converted file",
+            "content" : {
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/XML"
+                }
+              }
+            }
           },
           "405" : {
-            "description" : "Wrong method error message if the method is called wrong",
+            "description" : "Wrong method error message if the method is called wrong"
+          }
+        }
+      }
+    },
+    "/ege-webservice/Validation" : {
+      "get" : {
+        "tags" : [ "ege-webservice" ],
+        "summary" : "Get all available validations",
+        "description" : "Return list of input data types and lists of possible validation paths",
+        "operationId" : "doGet_1",
+        "responses" : {
+          "200" : {
+            "description" : "List of possible validations is returned",
             "content" : {
-              "*/*" : {
+              "text/xml" : {
                 "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/XML"
+                }
+              }
+            }
+          },
+          "405" : {
+            "description" : "Wrong method error message if the method is called wrong"
+          }
+        }
+      }
+    },
+    "/ege-webservice/Validation/{input-document-type}" : {
+      "post" : {
+        "tags" : [ "ege-webservice" ],
+        "summary" : "Do validation",
+        "description" : "Validate files of different data formats",
+        "operationId" : "doPost_1",
+        "parameters" : [ {
+          "name" : "input-document-type",
+          "in" : "path",
+          "description" : "Input document type",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "text/plain"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "*/*" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "method" : {
+                    "type" : "string"
+                  },
+                  "cookies" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "name" : {
+                          "type" : "string"
+                        },
+                        "value" : {
+                          "type" : "string"
+                        },
+                        "comment" : {
+                          "type" : "string"
+                        },
+                        "domain" : {
+                          "type" : "string"
+                        },
+                        "maxAge" : {
+                          "type" : "integer",
+                          "format" : "int32"
+                        },
+                        "path" : {
+                          "type" : "string"
+                        },
+                        "secure" : {
+                          "type" : "boolean"
+                        },
+                        "version" : {
+                          "type" : "integer",
+                          "format" : "int32"
+                        },
+                        "httpOnly" : {
+                          "type" : "boolean"
+                        }
+                      }
+                    }
+                  },
+                  "session" : {
+                    "type" : "object",
+                    "properties" : {
+                      "id" : {
+                        "type" : "string"
+                      },
+                      "creationTime" : {
+                        "type" : "integer",
+                        "format" : "int64"
+                      },
+                      "attributeNames" : {
+                        "type" : "object"
+                      },
+                      "servletContext" : {
+                        "type" : "object",
+                        "properties" : {
+                          "classLoader" : {
+                            "type" : "object",
+                            "properties" : {
+                              "parent" : {
+                                "type" : "object",
+                                "properties" : {
+                                  "name" : {
+                                    "type" : "string"
+                                  },
+                                  "unnamedModule" : {
+                                    "type" : "object",
+                                    "properties" : {
+                                      "layer" : {
+                                        "type" : "object"
+                                      },
+                                      "name" : {
+                                        "type" : "string"
+                                      },
+                                      "descriptor" : {
+                                        "type" : "object",
+                                        "properties" : {
+                                          "open" : {
+                                            "type" : "boolean"
+                                          },
+                                          "automatic" : {
+                                            "type" : "boolean"
+                                          }
+                                        }
+                                      },
+                                      "annotations" : {
+                                        "type" : "array",
+                                        "items" : {
+                                          "type" : "object"
+                                        }
+                                      },
+                                      "declaredAnnotations" : {
+                                        "type" : "array",
+                                        "items" : {
+                                          "type" : "object"
+                                        }
+                                      },
+                                      "named" : {
+                                        "type" : "boolean"
+                                      },
+                                      "packages" : {
+                                        "uniqueItems" : true,
+                                        "type" : "array",
+                                        "items" : {
+                                          "type" : "string"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "defaultAssertionStatus" : {
+                                    "type" : "boolean",
+                                    "writeOnly" : true
+                                  },
+                                  "registeredAsParallelCapable" : {
+                                    "type" : "boolean"
+                                  },
+                                  "definedPackages" : {
+                                    "type" : "array",
+                                    "items" : {
+                                      "type" : "object",
+                                      "properties" : {
+                                        "name" : {
+                                          "type" : "string"
+                                        },
+                                        "annotations" : {
+                                          "type" : "array",
+                                          "items" : {
+                                            "type" : "object"
+                                          }
+                                        },
+                                        "declaredAnnotations" : {
+                                          "type" : "array",
+                                          "items" : {
+                                            "type" : "object"
+                                          }
+                                        },
+                                        "sealed" : {
+                                          "type" : "boolean"
+                                        },
+                                        "specificationTitle" : {
+                                          "type" : "string"
+                                        },
+                                        "specificationVersion" : {
+                                          "type" : "string"
+                                        },
+                                        "specificationVendor" : {
+                                          "type" : "string"
+                                        },
+                                        "implementationTitle" : {
+                                          "type" : "string"
+                                        },
+                                        "implementationVersion" : {
+                                          "type" : "string"
+                                        },
+                                        "implementationVendor" : {
+                                          "type" : "string"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "name" : {
+                                "type" : "string"
+                              },
+                              "unnamedModule" : {
+                                "type" : "object",
+                                "properties" : {
+                                  "layer" : {
+                                    "type" : "object"
+                                  },
+                                  "name" : {
+                                    "type" : "string"
+                                  },
+                                  "descriptor" : {
+                                    "type" : "object",
+                                    "properties" : {
+                                      "open" : {
+                                        "type" : "boolean"
+                                      },
+                                      "automatic" : {
+                                        "type" : "boolean"
+                                      }
+                                    }
+                                  },
+                                  "annotations" : {
+                                    "type" : "array",
+                                    "items" : {
+                                      "type" : "object"
+                                    }
+                                  },
+                                  "declaredAnnotations" : {
+                                    "type" : "array",
+                                    "items" : {
+                                      "type" : "object"
+                                    }
+                                  },
+                                  "named" : {
+                                    "type" : "boolean"
+                                  },
+                                  "packages" : {
+                                    "uniqueItems" : true,
+                                    "type" : "array",
+                                    "items" : {
+                                      "type" : "string"
+                                    }
+                                  }
+                                }
+                              },
+                              "defaultAssertionStatus" : {
+                                "type" : "boolean",
+                                "writeOnly" : true
+                              },
+                              "registeredAsParallelCapable" : {
+                                "type" : "boolean"
+                              },
+                              "definedPackages" : {
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "object",
+                                  "properties" : {
+                                    "name" : {
+                                      "type" : "string"
+                                    },
+                                    "annotations" : {
+                                      "type" : "array",
+                                      "items" : {
+                                        "type" : "object"
+                                      }
+                                    },
+                                    "declaredAnnotations" : {
+                                      "type" : "array",
+                                      "items" : {
+                                        "type" : "object"
+                                      }
+                                    },
+                                    "sealed" : {
+                                      "type" : "boolean"
+                                    },
+                                    "specificationTitle" : {
+                                      "type" : "string"
+                                    },
+                                    "specificationVersion" : {
+                                      "type" : "string"
+                                    },
+                                    "specificationVendor" : {
+                                      "type" : "string"
+                                    },
+                                    "implementationTitle" : {
+                                      "type" : "string"
+                                    },
+                                    "implementationVersion" : {
+                                      "type" : "string"
+                                    },
+                                    "implementationVendor" : {
+                                      "type" : "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "majorVersion" : {
+                            "type" : "integer",
+                            "format" : "int32"
+                          },
+                          "minorVersion" : {
+                            "type" : "integer",
+                            "format" : "int32"
+                          },
+                          "attributeNames" : {
+                            "type" : "object"
+                          },
+                          "initParameterNames" : {
+                            "type" : "object"
+                          },
+                          "contextPath" : {
+                            "type" : "string"
+                          },
+                          "effectiveMajorVersion" : {
+                            "type" : "integer",
+                            "format" : "int32"
+                          },
+                          "effectiveMinorVersion" : {
+                            "type" : "integer",
+                            "format" : "int32"
+                          },
+                          "servlets" : {
+                            "type" : "object"
+                          },
+                          "servletNames" : {
+                            "type" : "object"
+                          },
+                          "serverInfo" : {
+                            "type" : "string"
+                          },
+                          "servletContextName" : {
+                            "type" : "string"
+                          },
+                          "servletRegistrations" : {
+                            "type" : "object",
+                            "additionalProperties" : {
+                              "type" : "object",
+                              "properties" : {
+                                "mappings" : {
+                                  "type" : "array",
+                                  "items" : {
+                                    "type" : "string"
+                                  }
+                                },
+                                "runAsRole" : {
+                                  "type" : "string"
+                                },
+                                "name" : {
+                                  "type" : "string"
+                                },
+                                "className" : {
+                                  "type" : "string"
+                                },
+                                "initParameters" : {
+                                  "type" : "object",
+                                  "additionalProperties" : {
+                                    "type" : "string"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "filterRegistrations" : {
+                            "type" : "object",
+                            "additionalProperties" : {
+                              "type" : "object",
+                              "properties" : {
+                                "servletNameMappings" : {
+                                  "type" : "array",
+                                  "items" : {
+                                    "type" : "string"
+                                  }
+                                },
+                                "urlPatternMappings" : {
+                                  "type" : "array",
+                                  "items" : {
+                                    "type" : "string"
+                                  }
+                                },
+                                "name" : {
+                                  "type" : "string"
+                                },
+                                "className" : {
+                                  "type" : "string"
+                                },
+                                "initParameters" : {
+                                  "type" : "object",
+                                  "additionalProperties" : {
+                                    "type" : "string"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "sessionCookieConfig" : {
+                            "type" : "object",
+                            "properties" : {
+                              "name" : {
+                                "type" : "string"
+                              },
+                              "path" : {
+                                "type" : "string"
+                              },
+                              "comment" : {
+                                "type" : "string"
+                              },
+                              "domain" : {
+                                "type" : "string"
+                              },
+                              "secure" : {
+                                "type" : "boolean"
+                              },
+                              "httpOnly" : {
+                                "type" : "boolean"
+                              },
+                              "maxAge" : {
+                                "type" : "integer",
+                                "format" : "int32"
+                              }
+                            }
+                          },
+                          "sessionTrackingModes" : {
+                            "uniqueItems" : true,
+                            "type" : "array",
+                            "writeOnly" : true,
+                            "items" : {
+                              "type" : "string",
+                              "enum" : [ "COOKIE", "URL", "SSL" ]
+                            }
+                          },
+                          "defaultSessionTrackingModes" : {
+                            "uniqueItems" : true,
+                            "type" : "array",
+                            "items" : {
+                              "type" : "string",
+                              "enum" : [ "COOKIE", "URL", "SSL" ]
+                            }
+                          },
+                          "effectiveSessionTrackingModes" : {
+                            "uniqueItems" : true,
+                            "type" : "array",
+                            "items" : {
+                              "type" : "string",
+                              "enum" : [ "COOKIE", "URL", "SSL" ]
+                            }
+                          },
+                          "jspConfigDescriptor" : {
+                            "type" : "object",
+                            "properties" : {
+                              "taglibs" : {
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "object",
+                                  "properties" : {
+                                    "taglibURI" : {
+                                      "type" : "string"
+                                    },
+                                    "taglibLocation" : {
+                                      "type" : "string"
+                                    }
+                                  }
+                                }
+                              },
+                              "jspPropertyGroups" : {
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "object",
+                                  "properties" : {
+                                    "buffer" : {
+                                      "type" : "string"
+                                    },
+                                    "deferredSyntaxAllowedAsLiteral" : {
+                                      "type" : "string"
+                                    },
+                                    "scriptingInvalid" : {
+                                      "type" : "string"
+                                    },
+                                    "urlPatterns" : {
+                                      "type" : "array",
+                                      "items" : {
+                                        "type" : "string"
+                                      }
+                                    },
+                                    "elIgnored" : {
+                                      "type" : "string"
+                                    },
+                                    "pageEncoding" : {
+                                      "type" : "string"
+                                    },
+                                    "isXml" : {
+                                      "type" : "string"
+                                    },
+                                    "includePreludes" : {
+                                      "type" : "array",
+                                      "items" : {
+                                        "type" : "string"
+                                      }
+                                    },
+                                    "includeCodas" : {
+                                      "type" : "array",
+                                      "items" : {
+                                        "type" : "string"
+                                      }
+                                    },
+                                    "trimDirectiveWhitespaces" : {
+                                      "type" : "string"
+                                    },
+                                    "defaultContentType" : {
+                                      "type" : "string"
+                                    },
+                                    "errorOnUndeclaredNamespace" : {
+                                      "type" : "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "virtualServerName" : {
+                            "type" : "string"
+                          },
+                          "sessionTimeout" : {
+                            "type" : "integer",
+                            "format" : "int32"
+                          },
+                          "requestCharacterEncoding" : {
+                            "type" : "string"
+                          },
+                          "responseCharacterEncoding" : {
+                            "type" : "string"
+                          }
+                        }
+                      },
+                      "sessionContext" : {
+                        "type" : "object",
+                        "properties" : {
+                          "ids" : {
+                            "type" : "object"
+                          }
+                        }
+                      },
+                      "lastAccessedTime" : {
+                        "type" : "integer",
+                        "format" : "int64"
+                      },
+                      "maxInactiveInterval" : {
+                        "type" : "integer",
+                        "format" : "int32"
+                      },
+                      "valueNames" : {
+                        "type" : "array",
+                        "items" : {
+                          "type" : "string"
+                        }
+                      },
+                      "new" : {
+                        "type" : "boolean"
+                      }
+                    }
+                  },
+                  "userPrincipal" : {
+                    "type" : "object",
+                    "properties" : {
+                      "name" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "requestURL" : {
+                    "type" : "object",
+                    "properties" : {
+                      "length" : {
+                        "type" : "integer",
+                        "format" : "int32",
+                        "writeOnly" : true
+                      }
+                    }
+                  },
+                  "requestURI" : {
+                    "type" : "string"
+                  },
+                  "headerNames" : {
+                    "type" : "object"
+                  },
+                  "trailerFields" : {
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "type" : "string"
+                    }
+                  },
+                  "authType" : {
+                    "type" : "string"
+                  },
+                  "httpServletMapping" : {
+                    "type" : "object",
+                    "properties" : {
+                      "pattern" : {
+                        "type" : "string"
+                      },
+                      "servletName" : {
+                        "type" : "string"
+                      },
+                      "matchValue" : {
+                        "type" : "string"
+                      },
+                      "mappingMatch" : {
+                        "type" : "string",
+                        "enum" : [ "CONTEXT_ROOT", "DEFAULT", "EXACT", "EXTENSION", "PATH" ]
+                      }
+                    }
+                  },
+                  "pathInfo" : {
+                    "type" : "string"
+                  },
+                  "pathTranslated" : {
+                    "type" : "string"
+                  },
+                  "contextPath" : {
+                    "type" : "string"
+                  },
+                  "queryString" : {
+                    "type" : "string"
+                  },
+                  "remoteUser" : {
+                    "type" : "string"
+                  },
+                  "requestedSessionId" : {
+                    "type" : "string"
+                  },
+                  "servletPath" : {
+                    "type" : "string"
+                  },
+                  "requestedSessionIdValid" : {
+                    "type" : "boolean"
+                  },
+                  "requestedSessionIdFromCookie" : {
+                    "type" : "boolean"
+                  },
+                  "requestedSessionIdFromURL" : {
+                    "type" : "boolean"
+                  },
+                  "requestedSessionIdFromUrl" : {
+                    "type" : "boolean"
+                  },
+                  "parts" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "name" : {
+                          "type" : "string"
+                        },
+                        "size" : {
+                          "type" : "integer",
+                          "format" : "int64"
+                        },
+                        "inputStream" : {
+                          "type" : "object"
+                        },
+                        "contentType" : {
+                          "type" : "string"
+                        },
+                        "headerNames" : {
+                          "type" : "array",
+                          "items" : {
+                            "type" : "string"
+                          }
+                        },
+                        "submittedFileName" : {
+                          "type" : "string"
+                        }
+                      }
+                    }
+                  },
+                  "trailerFieldsReady" : {
+                    "type" : "boolean"
+                  },
+                  "protocol" : {
+                    "type" : "string"
+                  },
+                  "scheme" : {
+                    "type" : "string"
+                  },
+                  "inputStream" : {
+                    "type" : "object",
+                    "properties" : {
+                      "ready" : {
+                        "type" : "boolean"
+                      },
+                      "finished" : {
+                        "type" : "boolean"
+                      },
+                      "readListener" : {
+                        "type" : "object",
+                        "writeOnly" : true
+                      }
+                    }
+                  },
+                  "contentLength" : {
+                    "type" : "integer",
+                    "format" : "int32"
+                  },
+                  "locale" : {
+                    "type" : "object",
+                    "properties" : {
+                      "language" : {
+                        "type" : "string"
+                      },
+                      "displayName" : {
+                        "type" : "string"
+                      },
+                      "script" : {
+                        "type" : "string"
+                      },
+                      "country" : {
+                        "type" : "string"
+                      },
+                      "variant" : {
+                        "type" : "string"
+                      },
+                      "extensionKeys" : {
+                        "uniqueItems" : true,
+                        "type" : "array",
+                        "items" : {
+                          "type" : "string"
+                        }
+                      },
+                      "unicodeLocaleAttributes" : {
+                        "uniqueItems" : true,
+                        "type" : "array",
+                        "items" : {
+                          "type" : "string"
+                        }
+                      },
+                      "unicodeLocaleKeys" : {
+                        "uniqueItems" : true,
+                        "type" : "array",
+                        "items" : {
+                          "type" : "string"
+                        }
+                      },
+                      "iso3Language" : {
+                        "type" : "string"
+                      },
+                      "iso3Country" : {
+                        "type" : "string"
+                      },
+                      "displayLanguage" : {
+                        "type" : "string"
+                      },
+                      "displayScript" : {
+                        "type" : "string"
+                      },
+                      "displayCountry" : {
+                        "type" : "string"
+                      },
+                      "displayVariant" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "contentLengthLong" : {
+                    "type" : "integer",
+                    "format" : "int64"
+                  },
+                  "contentType" : {
+                    "type" : "string"
+                  },
+                  "localName" : {
+                    "type" : "string"
+                  },
+                  "attributeNames" : {
+                    "type" : "object"
+                  },
+                  "parameterMap" : {
+                    "type" : "object",
+                    "additionalProperties" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "reader" : {
+                    "type" : "object"
+                  },
+                  "servletContext" : {
+                    "type" : "object",
+                    "properties" : {
+                      "classLoader" : {
+                        "type" : "object",
+                        "properties" : {
+                          "parent" : {
+                            "type" : "object",
+                            "properties" : {
+                              "name" : {
+                                "type" : "string"
+                              },
+                              "unnamedModule" : {
+                                "type" : "object",
+                                "properties" : {
+                                  "layer" : {
+                                    "type" : "object"
+                                  },
+                                  "name" : {
+                                    "type" : "string"
+                                  },
+                                  "descriptor" : {
+                                    "type" : "object",
+                                    "properties" : {
+                                      "open" : {
+                                        "type" : "boolean"
+                                      },
+                                      "automatic" : {
+                                        "type" : "boolean"
+                                      }
+                                    }
+                                  },
+                                  "annotations" : {
+                                    "type" : "array",
+                                    "items" : {
+                                      "type" : "object"
+                                    }
+                                  },
+                                  "declaredAnnotations" : {
+                                    "type" : "array",
+                                    "items" : {
+                                      "type" : "object"
+                                    }
+                                  },
+                                  "named" : {
+                                    "type" : "boolean"
+                                  },
+                                  "packages" : {
+                                    "uniqueItems" : true,
+                                    "type" : "array",
+                                    "items" : {
+                                      "type" : "string"
+                                    }
+                                  }
+                                }
+                              },
+                              "defaultAssertionStatus" : {
+                                "type" : "boolean",
+                                "writeOnly" : true
+                              },
+                              "registeredAsParallelCapable" : {
+                                "type" : "boolean"
+                              },
+                              "definedPackages" : {
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "object",
+                                  "properties" : {
+                                    "name" : {
+                                      "type" : "string"
+                                    },
+                                    "annotations" : {
+                                      "type" : "array",
+                                      "items" : {
+                                        "type" : "object"
+                                      }
+                                    },
+                                    "declaredAnnotations" : {
+                                      "type" : "array",
+                                      "items" : {
+                                        "type" : "object"
+                                      }
+                                    },
+                                    "sealed" : {
+                                      "type" : "boolean"
+                                    },
+                                    "specificationTitle" : {
+                                      "type" : "string"
+                                    },
+                                    "specificationVersion" : {
+                                      "type" : "string"
+                                    },
+                                    "specificationVendor" : {
+                                      "type" : "string"
+                                    },
+                                    "implementationTitle" : {
+                                      "type" : "string"
+                                    },
+                                    "implementationVersion" : {
+                                      "type" : "string"
+                                    },
+                                    "implementationVendor" : {
+                                      "type" : "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "name" : {
+                            "type" : "string"
+                          },
+                          "unnamedModule" : {
+                            "type" : "object",
+                            "properties" : {
+                              "layer" : {
+                                "type" : "object"
+                              },
+                              "name" : {
+                                "type" : "string"
+                              },
+                              "descriptor" : {
+                                "type" : "object",
+                                "properties" : {
+                                  "open" : {
+                                    "type" : "boolean"
+                                  },
+                                  "automatic" : {
+                                    "type" : "boolean"
+                                  }
+                                }
+                              },
+                              "annotations" : {
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "object"
+                                }
+                              },
+                              "declaredAnnotations" : {
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "object"
+                                }
+                              },
+                              "named" : {
+                                "type" : "boolean"
+                              },
+                              "packages" : {
+                                "uniqueItems" : true,
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "string"
+                                }
+                              }
+                            }
+                          },
+                          "defaultAssertionStatus" : {
+                            "type" : "boolean",
+                            "writeOnly" : true
+                          },
+                          "registeredAsParallelCapable" : {
+                            "type" : "boolean"
+                          },
+                          "definedPackages" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "name" : {
+                                  "type" : "string"
+                                },
+                                "annotations" : {
+                                  "type" : "array",
+                                  "items" : {
+                                    "type" : "object"
+                                  }
+                                },
+                                "declaredAnnotations" : {
+                                  "type" : "array",
+                                  "items" : {
+                                    "type" : "object"
+                                  }
+                                },
+                                "sealed" : {
+                                  "type" : "boolean"
+                                },
+                                "specificationTitle" : {
+                                  "type" : "string"
+                                },
+                                "specificationVersion" : {
+                                  "type" : "string"
+                                },
+                                "specificationVendor" : {
+                                  "type" : "string"
+                                },
+                                "implementationTitle" : {
+                                  "type" : "string"
+                                },
+                                "implementationVersion" : {
+                                  "type" : "string"
+                                },
+                                "implementationVendor" : {
+                                  "type" : "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "majorVersion" : {
+                        "type" : "integer",
+                        "format" : "int32"
+                      },
+                      "minorVersion" : {
+                        "type" : "integer",
+                        "format" : "int32"
+                      },
+                      "attributeNames" : {
+                        "type" : "object"
+                      },
+                      "initParameterNames" : {
+                        "type" : "object"
+                      },
+                      "contextPath" : {
+                        "type" : "string"
+                      },
+                      "effectiveMajorVersion" : {
+                        "type" : "integer",
+                        "format" : "int32"
+                      },
+                      "effectiveMinorVersion" : {
+                        "type" : "integer",
+                        "format" : "int32"
+                      },
+                      "servlets" : {
+                        "type" : "object"
+                      },
+                      "servletNames" : {
+                        "type" : "object"
+                      },
+                      "serverInfo" : {
+                        "type" : "string"
+                      },
+                      "servletContextName" : {
+                        "type" : "string"
+                      },
+                      "servletRegistrations" : {
+                        "type" : "object",
+                        "additionalProperties" : {
+                          "type" : "object",
+                          "properties" : {
+                            "mappings" : {
+                              "type" : "array",
+                              "items" : {
+                                "type" : "string"
+                              }
+                            },
+                            "runAsRole" : {
+                              "type" : "string"
+                            },
+                            "name" : {
+                              "type" : "string"
+                            },
+                            "className" : {
+                              "type" : "string"
+                            },
+                            "initParameters" : {
+                              "type" : "object",
+                              "additionalProperties" : {
+                                "type" : "string"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "filterRegistrations" : {
+                        "type" : "object",
+                        "additionalProperties" : {
+                          "type" : "object",
+                          "properties" : {
+                            "servletNameMappings" : {
+                              "type" : "array",
+                              "items" : {
+                                "type" : "string"
+                              }
+                            },
+                            "urlPatternMappings" : {
+                              "type" : "array",
+                              "items" : {
+                                "type" : "string"
+                              }
+                            },
+                            "name" : {
+                              "type" : "string"
+                            },
+                            "className" : {
+                              "type" : "string"
+                            },
+                            "initParameters" : {
+                              "type" : "object",
+                              "additionalProperties" : {
+                                "type" : "string"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "sessionCookieConfig" : {
+                        "type" : "object",
+                        "properties" : {
+                          "name" : {
+                            "type" : "string"
+                          },
+                          "path" : {
+                            "type" : "string"
+                          },
+                          "comment" : {
+                            "type" : "string"
+                          },
+                          "domain" : {
+                            "type" : "string"
+                          },
+                          "secure" : {
+                            "type" : "boolean"
+                          },
+                          "httpOnly" : {
+                            "type" : "boolean"
+                          },
+                          "maxAge" : {
+                            "type" : "integer",
+                            "format" : "int32"
+                          }
+                        }
+                      },
+                      "sessionTrackingModes" : {
+                        "uniqueItems" : true,
+                        "type" : "array",
+                        "writeOnly" : true,
+                        "items" : {
+                          "type" : "string",
+                          "enum" : [ "COOKIE", "URL", "SSL" ]
+                        }
+                      },
+                      "defaultSessionTrackingModes" : {
+                        "uniqueItems" : true,
+                        "type" : "array",
+                        "items" : {
+                          "type" : "string",
+                          "enum" : [ "COOKIE", "URL", "SSL" ]
+                        }
+                      },
+                      "effectiveSessionTrackingModes" : {
+                        "uniqueItems" : true,
+                        "type" : "array",
+                        "items" : {
+                          "type" : "string",
+                          "enum" : [ "COOKIE", "URL", "SSL" ]
+                        }
+                      },
+                      "jspConfigDescriptor" : {
+                        "type" : "object",
+                        "properties" : {
+                          "taglibs" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "taglibURI" : {
+                                  "type" : "string"
+                                },
+                                "taglibLocation" : {
+                                  "type" : "string"
+                                }
+                              }
+                            }
+                          },
+                          "jspPropertyGroups" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object",
+                              "properties" : {
+                                "buffer" : {
+                                  "type" : "string"
+                                },
+                                "deferredSyntaxAllowedAsLiteral" : {
+                                  "type" : "string"
+                                },
+                                "scriptingInvalid" : {
+                                  "type" : "string"
+                                },
+                                "urlPatterns" : {
+                                  "type" : "array",
+                                  "items" : {
+                                    "type" : "string"
+                                  }
+                                },
+                                "elIgnored" : {
+                                  "type" : "string"
+                                },
+                                "pageEncoding" : {
+                                  "type" : "string"
+                                },
+                                "isXml" : {
+                                  "type" : "string"
+                                },
+                                "includePreludes" : {
+                                  "type" : "array",
+                                  "items" : {
+                                    "type" : "string"
+                                  }
+                                },
+                                "includeCodas" : {
+                                  "type" : "array",
+                                  "items" : {
+                                    "type" : "string"
+                                  }
+                                },
+                                "trimDirectiveWhitespaces" : {
+                                  "type" : "string"
+                                },
+                                "defaultContentType" : {
+                                  "type" : "string"
+                                },
+                                "errorOnUndeclaredNamespace" : {
+                                  "type" : "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "virtualServerName" : {
+                        "type" : "string"
+                      },
+                      "sessionTimeout" : {
+                        "type" : "integer",
+                        "format" : "int32"
+                      },
+                      "requestCharacterEncoding" : {
+                        "type" : "string"
+                      },
+                      "responseCharacterEncoding" : {
+                        "type" : "string"
+                      }
+                    }
+                  },
+                  "characterEncoding" : {
+                    "type" : "string"
+                  },
+                  "parameterNames" : {
+                    "type" : "object"
+                  },
+                  "serverName" : {
+                    "type" : "string"
+                  },
+                  "serverPort" : {
+                    "type" : "integer",
+                    "format" : "int32"
+                  },
+                  "remoteAddr" : {
+                    "type" : "string"
+                  },
+                  "remoteHost" : {
+                    "type" : "string"
+                  },
+                  "locales" : {
+                    "type" : "object"
+                  },
+                  "secure" : {
+                    "type" : "boolean"
+                  },
+                  "remotePort" : {
+                    "type" : "integer",
+                    "format" : "int32"
+                  },
+                  "localAddr" : {
+                    "type" : "string"
+                  },
+                  "localPort" : {
+                    "type" : "integer",
+                    "format" : "int32"
+                  },
+                  "asyncStarted" : {
+                    "type" : "boolean"
+                  },
+                  "asyncSupported" : {
+                    "type" : "boolean"
+                  },
+                  "asyncContext" : {
+                    "type" : "object",
+                    "properties" : {
+                      "request" : {
+                        "type" : "object",
+                        "properties" : {
+                          "protocol" : {
+                            "type" : "string"
+                          },
+                          "scheme" : {
+                            "type" : "string"
+                          },
+                          "inputStream" : {
+                            "type" : "object",
+                            "properties" : {
+                              "ready" : {
+                                "type" : "boolean"
+                              },
+                              "finished" : {
+                                "type" : "boolean"
+                              },
+                              "readListener" : {
+                                "type" : "object",
+                                "writeOnly" : true
+                              }
+                            }
+                          },
+                          "contentLength" : {
+                            "type" : "integer",
+                            "format" : "int32"
+                          },
+                          "locale" : {
+                            "type" : "object",
+                            "properties" : {
+                              "language" : {
+                                "type" : "string"
+                              },
+                              "displayName" : {
+                                "type" : "string"
+                              },
+                              "script" : {
+                                "type" : "string"
+                              },
+                              "country" : {
+                                "type" : "string"
+                              },
+                              "variant" : {
+                                "type" : "string"
+                              },
+                              "extensionKeys" : {
+                                "uniqueItems" : true,
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "string"
+                                }
+                              },
+                              "unicodeLocaleAttributes" : {
+                                "uniqueItems" : true,
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "string"
+                                }
+                              },
+                              "unicodeLocaleKeys" : {
+                                "uniqueItems" : true,
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "string"
+                                }
+                              },
+                              "iso3Language" : {
+                                "type" : "string"
+                              },
+                              "iso3Country" : {
+                                "type" : "string"
+                              },
+                              "displayLanguage" : {
+                                "type" : "string"
+                              },
+                              "displayScript" : {
+                                "type" : "string"
+                              },
+                              "displayCountry" : {
+                                "type" : "string"
+                              },
+                              "displayVariant" : {
+                                "type" : "string"
+                              }
+                            }
+                          },
+                          "contentLengthLong" : {
+                            "type" : "integer",
+                            "format" : "int64"
+                          },
+                          "contentType" : {
+                            "type" : "string"
+                          },
+                          "localName" : {
+                            "type" : "string"
+                          },
+                          "attributeNames" : {
+                            "type" : "object"
+                          },
+                          "parameterMap" : {
+                            "type" : "object",
+                            "additionalProperties" : {
+                              "type" : "array",
+                              "items" : {
+                                "type" : "string"
+                              }
+                            }
+                          },
+                          "reader" : {
+                            "type" : "object"
+                          },
+                          "servletContext" : {
+                            "type" : "object",
+                            "properties" : {
+                              "classLoader" : {
+                                "type" : "object",
+                                "properties" : {
+                                  "parent" : {
+                                    "type" : "object",
+                                    "properties" : {
+                                      "name" : {
+                                        "type" : "string"
+                                      },
+                                      "unnamedModule" : {
+                                        "type" : "object",
+                                        "properties" : {
+                                          "layer" : {
+                                            "type" : "object"
+                                          },
+                                          "name" : {
+                                            "type" : "string"
+                                          },
+                                          "descriptor" : {
+                                            "type" : "object",
+                                            "properties" : {
+                                              "open" : {
+                                                "type" : "boolean"
+                                              },
+                                              "automatic" : {
+                                                "type" : "boolean"
+                                              }
+                                            }
+                                          },
+                                          "annotations" : {
+                                            "type" : "array",
+                                            "items" : {
+                                              "type" : "object"
+                                            }
+                                          },
+                                          "declaredAnnotations" : {
+                                            "type" : "array",
+                                            "items" : {
+                                              "type" : "object"
+                                            }
+                                          },
+                                          "named" : {
+                                            "type" : "boolean"
+                                          },
+                                          "packages" : {
+                                            "uniqueItems" : true,
+                                            "type" : "array",
+                                            "items" : {
+                                              "type" : "string"
+                                            }
+                                          }
+                                        }
+                                      },
+                                      "defaultAssertionStatus" : {
+                                        "type" : "boolean",
+                                        "writeOnly" : true
+                                      },
+                                      "registeredAsParallelCapable" : {
+                                        "type" : "boolean"
+                                      },
+                                      "definedPackages" : {
+                                        "type" : "array",
+                                        "items" : {
+                                          "type" : "object",
+                                          "properties" : {
+                                            "name" : {
+                                              "type" : "string"
+                                            },
+                                            "annotations" : {
+                                              "type" : "array",
+                                              "items" : {
+                                                "type" : "object"
+                                              }
+                                            },
+                                            "declaredAnnotations" : {
+                                              "type" : "array",
+                                              "items" : {
+                                                "type" : "object"
+                                              }
+                                            },
+                                            "sealed" : {
+                                              "type" : "boolean"
+                                            },
+                                            "specificationTitle" : {
+                                              "type" : "string"
+                                            },
+                                            "specificationVersion" : {
+                                              "type" : "string"
+                                            },
+                                            "specificationVendor" : {
+                                              "type" : "string"
+                                            },
+                                            "implementationTitle" : {
+                                              "type" : "string"
+                                            },
+                                            "implementationVersion" : {
+                                              "type" : "string"
+                                            },
+                                            "implementationVendor" : {
+                                              "type" : "string"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "name" : {
+                                    "type" : "string"
+                                  },
+                                  "unnamedModule" : {
+                                    "type" : "object",
+                                    "properties" : {
+                                      "layer" : {
+                                        "type" : "object"
+                                      },
+                                      "name" : {
+                                        "type" : "string"
+                                      },
+                                      "descriptor" : {
+                                        "type" : "object",
+                                        "properties" : {
+                                          "open" : {
+                                            "type" : "boolean"
+                                          },
+                                          "automatic" : {
+                                            "type" : "boolean"
+                                          }
+                                        }
+                                      },
+                                      "annotations" : {
+                                        "type" : "array",
+                                        "items" : {
+                                          "type" : "object"
+                                        }
+                                      },
+                                      "declaredAnnotations" : {
+                                        "type" : "array",
+                                        "items" : {
+                                          "type" : "object"
+                                        }
+                                      },
+                                      "named" : {
+                                        "type" : "boolean"
+                                      },
+                                      "packages" : {
+                                        "uniqueItems" : true,
+                                        "type" : "array",
+                                        "items" : {
+                                          "type" : "string"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "defaultAssertionStatus" : {
+                                    "type" : "boolean",
+                                    "writeOnly" : true
+                                  },
+                                  "registeredAsParallelCapable" : {
+                                    "type" : "boolean"
+                                  },
+                                  "definedPackages" : {
+                                    "type" : "array",
+                                    "items" : {
+                                      "type" : "object",
+                                      "properties" : {
+                                        "name" : {
+                                          "type" : "string"
+                                        },
+                                        "annotations" : {
+                                          "type" : "array",
+                                          "items" : {
+                                            "type" : "object"
+                                          }
+                                        },
+                                        "declaredAnnotations" : {
+                                          "type" : "array",
+                                          "items" : {
+                                            "type" : "object"
+                                          }
+                                        },
+                                        "sealed" : {
+                                          "type" : "boolean"
+                                        },
+                                        "specificationTitle" : {
+                                          "type" : "string"
+                                        },
+                                        "specificationVersion" : {
+                                          "type" : "string"
+                                        },
+                                        "specificationVendor" : {
+                                          "type" : "string"
+                                        },
+                                        "implementationTitle" : {
+                                          "type" : "string"
+                                        },
+                                        "implementationVersion" : {
+                                          "type" : "string"
+                                        },
+                                        "implementationVendor" : {
+                                          "type" : "string"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "majorVersion" : {
+                                "type" : "integer",
+                                "format" : "int32"
+                              },
+                              "minorVersion" : {
+                                "type" : "integer",
+                                "format" : "int32"
+                              },
+                              "attributeNames" : {
+                                "type" : "object"
+                              },
+                              "initParameterNames" : {
+                                "type" : "object"
+                              },
+                              "contextPath" : {
+                                "type" : "string"
+                              },
+                              "effectiveMajorVersion" : {
+                                "type" : "integer",
+                                "format" : "int32"
+                              },
+                              "effectiveMinorVersion" : {
+                                "type" : "integer",
+                                "format" : "int32"
+                              },
+                              "servlets" : {
+                                "type" : "object"
+                              },
+                              "servletNames" : {
+                                "type" : "object"
+                              },
+                              "serverInfo" : {
+                                "type" : "string"
+                              },
+                              "servletContextName" : {
+                                "type" : "string"
+                              },
+                              "servletRegistrations" : {
+                                "type" : "object",
+                                "additionalProperties" : {
+                                  "type" : "object",
+                                  "properties" : {
+                                    "mappings" : {
+                                      "type" : "array",
+                                      "items" : {
+                                        "type" : "string"
+                                      }
+                                    },
+                                    "runAsRole" : {
+                                      "type" : "string"
+                                    },
+                                    "name" : {
+                                      "type" : "string"
+                                    },
+                                    "className" : {
+                                      "type" : "string"
+                                    },
+                                    "initParameters" : {
+                                      "type" : "object",
+                                      "additionalProperties" : {
+                                        "type" : "string"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "filterRegistrations" : {
+                                "type" : "object",
+                                "additionalProperties" : {
+                                  "type" : "object",
+                                  "properties" : {
+                                    "servletNameMappings" : {
+                                      "type" : "array",
+                                      "items" : {
+                                        "type" : "string"
+                                      }
+                                    },
+                                    "urlPatternMappings" : {
+                                      "type" : "array",
+                                      "items" : {
+                                        "type" : "string"
+                                      }
+                                    },
+                                    "name" : {
+                                      "type" : "string"
+                                    },
+                                    "className" : {
+                                      "type" : "string"
+                                    },
+                                    "initParameters" : {
+                                      "type" : "object",
+                                      "additionalProperties" : {
+                                        "type" : "string"
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "sessionCookieConfig" : {
+                                "type" : "object",
+                                "properties" : {
+                                  "name" : {
+                                    "type" : "string"
+                                  },
+                                  "path" : {
+                                    "type" : "string"
+                                  },
+                                  "comment" : {
+                                    "type" : "string"
+                                  },
+                                  "domain" : {
+                                    "type" : "string"
+                                  },
+                                  "secure" : {
+                                    "type" : "boolean"
+                                  },
+                                  "httpOnly" : {
+                                    "type" : "boolean"
+                                  },
+                                  "maxAge" : {
+                                    "type" : "integer",
+                                    "format" : "int32"
+                                  }
+                                }
+                              },
+                              "sessionTrackingModes" : {
+                                "uniqueItems" : true,
+                                "type" : "array",
+                                "writeOnly" : true,
+                                "items" : {
+                                  "type" : "string",
+                                  "enum" : [ "COOKIE", "URL", "SSL" ]
+                                }
+                              },
+                              "defaultSessionTrackingModes" : {
+                                "uniqueItems" : true,
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "string",
+                                  "enum" : [ "COOKIE", "URL", "SSL" ]
+                                }
+                              },
+                              "effectiveSessionTrackingModes" : {
+                                "uniqueItems" : true,
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "string",
+                                  "enum" : [ "COOKIE", "URL", "SSL" ]
+                                }
+                              },
+                              "jspConfigDescriptor" : {
+                                "type" : "object",
+                                "properties" : {
+                                  "taglibs" : {
+                                    "type" : "array",
+                                    "items" : {
+                                      "type" : "object",
+                                      "properties" : {
+                                        "taglibURI" : {
+                                          "type" : "string"
+                                        },
+                                        "taglibLocation" : {
+                                          "type" : "string"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "jspPropertyGroups" : {
+                                    "type" : "array",
+                                    "items" : {
+                                      "type" : "object",
+                                      "properties" : {
+                                        "buffer" : {
+                                          "type" : "string"
+                                        },
+                                        "deferredSyntaxAllowedAsLiteral" : {
+                                          "type" : "string"
+                                        },
+                                        "scriptingInvalid" : {
+                                          "type" : "string"
+                                        },
+                                        "urlPatterns" : {
+                                          "type" : "array",
+                                          "items" : {
+                                            "type" : "string"
+                                          }
+                                        },
+                                        "elIgnored" : {
+                                          "type" : "string"
+                                        },
+                                        "pageEncoding" : {
+                                          "type" : "string"
+                                        },
+                                        "isXml" : {
+                                          "type" : "string"
+                                        },
+                                        "includePreludes" : {
+                                          "type" : "array",
+                                          "items" : {
+                                            "type" : "string"
+                                          }
+                                        },
+                                        "includeCodas" : {
+                                          "type" : "array",
+                                          "items" : {
+                                            "type" : "string"
+                                          }
+                                        },
+                                        "trimDirectiveWhitespaces" : {
+                                          "type" : "string"
+                                        },
+                                        "defaultContentType" : {
+                                          "type" : "string"
+                                        },
+                                        "errorOnUndeclaredNamespace" : {
+                                          "type" : "string"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "virtualServerName" : {
+                                "type" : "string"
+                              },
+                              "sessionTimeout" : {
+                                "type" : "integer",
+                                "format" : "int32"
+                              },
+                              "requestCharacterEncoding" : {
+                                "type" : "string"
+                              },
+                              "responseCharacterEncoding" : {
+                                "type" : "string"
+                              }
+                            }
+                          },
+                          "characterEncoding" : {
+                            "type" : "string"
+                          },
+                          "parameterNames" : {
+                            "type" : "object"
+                          },
+                          "serverName" : {
+                            "type" : "string"
+                          },
+                          "serverPort" : {
+                            "type" : "integer",
+                            "format" : "int32"
+                          },
+                          "remoteAddr" : {
+                            "type" : "string"
+                          },
+                          "remoteHost" : {
+                            "type" : "string"
+                          },
+                          "locales" : {
+                            "type" : "object"
+                          },
+                          "secure" : {
+                            "type" : "boolean"
+                          },
+                          "remotePort" : {
+                            "type" : "integer",
+                            "format" : "int32"
+                          },
+                          "localAddr" : {
+                            "type" : "string"
+                          },
+                          "localPort" : {
+                            "type" : "integer",
+                            "format" : "int32"
+                          },
+                          "asyncStarted" : {
+                            "type" : "boolean"
+                          },
+                          "asyncSupported" : {
+                            "type" : "boolean"
+                          },
+                          "dispatcherType" : {
+                            "type" : "string",
+                            "enum" : [ "FORWARD", "INCLUDE", "REQUEST", "ASYNC", "ERROR" ]
+                          }
+                        }
+                      },
+                      "timeout" : {
+                        "type" : "integer",
+                        "format" : "int64"
+                      },
+                      "response" : {
+                        "type" : "object",
+                        "properties" : {
+                          "locale" : {
+                            "type" : "object",
+                            "properties" : {
+                              "language" : {
+                                "type" : "string"
+                              },
+                              "displayName" : {
+                                "type" : "string"
+                              },
+                              "script" : {
+                                "type" : "string"
+                              },
+                              "country" : {
+                                "type" : "string"
+                              },
+                              "variant" : {
+                                "type" : "string"
+                              },
+                              "extensionKeys" : {
+                                "uniqueItems" : true,
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "string"
+                                }
+                              },
+                              "unicodeLocaleAttributes" : {
+                                "uniqueItems" : true,
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "string"
+                                }
+                              },
+                              "unicodeLocaleKeys" : {
+                                "uniqueItems" : true,
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "string"
+                                }
+                              },
+                              "iso3Language" : {
+                                "type" : "string"
+                              },
+                              "iso3Country" : {
+                                "type" : "string"
+                              },
+                              "displayLanguage" : {
+                                "type" : "string"
+                              },
+                              "displayScript" : {
+                                "type" : "string"
+                              },
+                              "displayCountry" : {
+                                "type" : "string"
+                              },
+                              "displayVariant" : {
+                                "type" : "string"
+                              }
+                            }
+                          },
+                          "contentType" : {
+                            "type" : "string"
+                          },
+                          "contentLength" : {
+                            "type" : "integer",
+                            "format" : "int32",
+                            "writeOnly" : true
+                          },
+                          "outputStream" : {
+                            "type" : "object",
+                            "properties" : {
+                              "ready" : {
+                                "type" : "boolean"
+                              },
+                              "writeListener" : {
+                                "type" : "object",
+                                "writeOnly" : true
+                              }
+                            }
+                          },
+                          "writer" : {
+                            "type" : "object"
+                          },
+                          "bufferSize" : {
+                            "type" : "integer",
+                            "format" : "int32"
+                          },
+                          "characterEncoding" : {
+                            "type" : "string"
+                          },
+                          "contentLengthLong" : {
+                            "type" : "integer",
+                            "format" : "int64",
+                            "writeOnly" : true
+                          },
+                          "committed" : {
+                            "type" : "boolean"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "dispatcherType" : {
+                    "type" : "string",
+                    "enum" : [ "FORWARD", "INCLUDE", "REQUEST", "ASYNC", "ERROR" ]
+                  }
                 }
               }
             }
           }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Validation Result",
+            "content" : {
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/XML"
+                }
+              }
+            }
+          },
+          "405" : {
+            "description" : "Wrong method error message if the method is called wrong"
+          }
         }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "XML" : {
+        "type" : "object"
       }
     }
   }
