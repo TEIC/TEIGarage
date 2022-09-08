@@ -11,12 +11,8 @@ authors:
   given-names: "Lou"
 - family-names: "Rahtz"
   given-names: "Sebastian"  
-- family-names: "Burnard"
-  given-names: "Lou"
 - family-names: "Werla"
   given-names: "Marcin"  
-- family-names: "Burnard"
-  given-names: "Lou"
 - family-names: "Mittelbach"
   given-names: "Arno"
 - family-names: "Röwenstrunk"
@@ -26,7 +22,7 @@ authors:
 - family-names: "Anne"
   given-names: "Ferger"
 title: "TEIGarage"
-version: 1.0.0
+version: 0.6.0
 doi: 
 date-released: 2022-09-08
 url: "https://github.com/TEIC/TEIGarage"
