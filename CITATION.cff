@@ -23,8 +23,8 @@ authors:
   given-names: "Daniel"
 - family-names: "Stadler"
   given-names: "Peter"
-- family-names: "Anne"
-  given-names: "Ferger"
+- family-names: "Ferger"
+  given-names: "Anne"
 title: "TEIGarage"
 version: 0.6.0
 doi: 
