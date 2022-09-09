@@ -39,7 +39,7 @@ docker run --rm \
 
 Once it's running, you can point your browser at `http://localhost:8080` for the graphical user interface and  http://localhost:8080/ege-webservice` for the webservice.
 
-You can also get the development version from DockerHub with `docker pull teic/teigarage:dev`.
+You can also get the development version from DockerHub using `docker pull teic/teigarage:dev`.
 
 ### available parameters
 
