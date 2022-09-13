@@ -87,7 +87,7 @@ import pl.psnc.dl.ege.webapp.request.RequestResolvingException;
         version = "1.0",
         description = "EGE Webservice API to convert and validate TEI related data.",
         license = @License(name = " GPL-3.0 license", url = "https://www.gnu.org/licenses/gpl-3.0.en.html"),
-        contact = @Contact(url = "https://teigarage.tei-c.de/", name = "Anne Ferger", email = "anne.ferger@upb.de")
+        contact = @Contact(url = "https://github.com/TEIC/TEIGarage", name = "Anne Ferger", email = "anne.ferger@upb.de")
 ), tags = {
         @Tag(name = "ege-webservice", description = "Conversion, Validation and Customization")
 },
@@ -151,7 +151,7 @@ public class ConversionServlet extends HttpServlet {
             @ApiResponse(
                     description = "List of possible conversions is returned",
                     responseCode = "200",
-                    content = @Content(mediaType = "text/xml", schema = @Schema(implementation = XML.class))),
+                    content = @Content(mediaType = "text/xml", schema = @Schema(implementation=ConversionsPath.class))),
             @ApiResponse(
                     description = "Wrong method error message if the method is called wrong",
                     responseCode = "405")
@@ -207,8 +207,13 @@ public class ConversionServlet extends HttpServlet {
 		StringBuffer resp = new StringBuffer();
 		StringBuffer sbpath = new StringBuffer();
 		StringBuffer pathopt = new StringBuffer();
+		String baseprefix = rr.getRequest().getScheme() + "://" +
+				rr.getRequest().getServerName() + ":" + rr.getRequest().getServerPort() +
+				rr.getRequest().getContextPath() + (rr.getRequest().getContextPath().toString().endsWith(
+				RequestResolver.SLASH) ? "" : "/");
 		resp.append("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>");
-		resp.append("<conversions-paths xmlns:xlink=\"http://www.w3.org/1999/xlink\">");
+		resp.append("<conversions-paths xmlns:xlink=\"http://www.w3.org/1999/xlink\"  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"" +
+				baseprefix + "schemas/conversions-paths.xsd\">");
 		int counter = 0;
 		String reqTransf;
 		for (ConversionsPath cp : paths) {
@@ -282,11 +287,16 @@ public class ConversionServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 	    try {
 		response.setContentType("text/xml");
-		out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-		out.println("<input-data-types xmlns:xlink=\"http://www.w3.org/1999/xlink\">");
+		String baseprefix = rr.getRequest().getScheme() + "://" +
+				rr.getRequest().getServerName() + ":" + rr.getRequest().getServerPort() +
+				rr.getRequest().getContextPath() + (rr.getRequest().getContextPath().toString().endsWith(
+				RequestResolver.SLASH) ? "" : "/");
 		String prefix = rr.getRequest().getRequestURL().toString()
-				+ (rr.getRequest().getRequestURL().toString().endsWith(SLASH) ? ""
-						: "/");
+					+ (rr.getRequest().getRequestURL().toString().endsWith(SLASH) ? ""
+					: "/");
+		out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		out.println("<input-data-types xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"" +
+				baseprefix + "schemas/input-data-types.xsd\">");
 		for (DataType dt : inputDataTypes) {
 			out.println("<input-data-type id=\"" + dt.toString()
 					+ "\" xlink:href=\"" + prefix + rr.encodeDataType(dt)
@@ -417,7 +427,7 @@ public class ConversionServlet extends HttpServlet {
 				    ValidationResult vRes = ege.performValidation(ins, cpath.getInputDataType());
 				    if (vRes.getStatus().equals(ValidationResult.Status.FATAL)) {
 					ValidationServlet valServ = new ValidationServlet();
-					valServ.printValidationResult(response, vRes);
+					valServ.printValidationResult(response, vRes, rr);
 					try {
 					    ins.close();
 					} finally {

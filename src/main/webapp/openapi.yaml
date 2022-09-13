@@ -4,7 +4,7 @@ info:
   description: EGE Webservice API to convert and validate TEI related data.
   contact:
     name: Anne Ferger
-    url: https://teigarage.tei-c.de/
+    url: https://github.com/TEIC/TEIGarage
     email: anne.ferger@upb.de
   license:
     name: ' GPL-3.0 license'
@@ -31,7 +31,7 @@ paths:
           content:
             text/xml:
               schema:
-                $ref: '#/components/schemas/XML'
+                $ref: '#/components/schemas/ConversionsPath'
         "405":
           description: Wrong method error message if the method is called wrong
   /ege-webservice/Conversions/{input-document-type}/{output-document-type}:
@@ -85,7 +85,7 @@ paths:
           content:
             text/xml:
               schema:
-                $ref: '#/components/schemas/XML'
+                $ref: '#/components/schemas/DataType'
         "405":
           description: Wrong method error message if the method is called wrong
   /ege-webservice/Validation/{input-document-type}:
@@ -101,8 +101,7 @@ paths:
         description: Input document type
         required: true
         schema:
-          type: string
-          format: text/plain
+          $ref: '#/components/schemas/DataType'
       requestBody:
         content:
           '*/*':
@@ -293,10 +292,10 @@ paths:
                           format: int32
                         attributeNames:
                           type: object
-                        initParameterNames:
-                          type: object
                         contextPath:
                           type: string
+                        initParameterNames:
+                          type: object
                         effectiveMajorVersion:
                           type: integer
                           format: int32
@@ -416,10 +415,6 @@ paths:
                                 properties:
                                   buffer:
                                     type: string
-                                  deferredSyntaxAllowedAsLiteral:
-                                    type: string
-                                  scriptingInvalid:
-                                    type: string
                                   urlPatterns:
                                     type: array
                                     items:
@@ -427,6 +422,8 @@ paths:
                                   elIgnored:
                                     type: string
                                   pageEncoding:
+                                    type: string
+                                  scriptingInvalid:
                                     type: string
                                   isXml:
                                     type: string
@@ -438,6 +435,8 @@ paths:
                                     type: array
                                     items:
                                       type: string
+                                  deferredSyntaxAllowedAsLiteral:
+                                    type: string
                                   trimDirectiveWhitespaces:
                                     type: string
                                   defaultContentType:
@@ -453,6 +452,12 @@ paths:
                           type: string
                         responseCharacterEncoding:
                           type: string
+                    valueNames:
+                      type: array
+                      items:
+                        type: string
+                    new:
+                      type: boolean
                     sessionContext:
                       type: object
                       properties:
@@ -464,17 +469,13 @@ paths:
                     maxInactiveInterval:
                       type: integer
                       format: int32
-                    valueNames:
-                      type: array
-                      items:
-                        type: string
-                    new:
-                      type: boolean
                 userPrincipal:
                   type: object
                   properties:
                     name:
                       type: string
+                contextPath:
+                  type: string
                 requestURL:
                   type: object
                   properties:
@@ -512,8 +513,6 @@ paths:
                 pathInfo:
                   type: string
                 pathTranslated:
-                  type: string
-                contextPath:
                   type: string
                 queryString:
                   type: string
@@ -774,10 +773,10 @@ paths:
                       format: int32
                     attributeNames:
                       type: object
-                    initParameterNames:
-                      type: object
                     contextPath:
                       type: string
+                    initParameterNames:
+                      type: object
                     effectiveMajorVersion:
                       type: integer
                       format: int32
@@ -897,10 +896,6 @@ paths:
                             properties:
                               buffer:
                                 type: string
-                              deferredSyntaxAllowedAsLiteral:
-                                type: string
-                              scriptingInvalid:
-                                type: string
                               urlPatterns:
                                 type: array
                                 items:
@@ -908,6 +903,8 @@ paths:
                               elIgnored:
                                 type: string
                               pageEncoding:
+                                type: string
+                              scriptingInvalid:
                                 type: string
                               isXml:
                                 type: string
@@ -919,6 +916,8 @@ paths:
                                 type: array
                                 items:
                                   type: string
+                              deferredSyntaxAllowedAsLiteral:
+                                type: string
                               trimDirectiveWhitespaces:
                                 type: string
                               defaultContentType:
@@ -934,15 +933,15 @@ paths:
                       type: string
                     responseCharacterEncoding:
                       type: string
-                characterEncoding:
-                  type: string
-                parameterNames:
-                  type: object
                 serverName:
                   type: string
                 serverPort:
                   type: integer
                   format: int32
+                characterEncoding:
+                  type: string
+                parameterNames:
+                  type: object
                 remoteAddr:
                   type: string
                 remoteHost:
@@ -1190,10 +1189,10 @@ paths:
                               format: int32
                             attributeNames:
                               type: object
-                            initParameterNames:
-                              type: object
                             contextPath:
                               type: string
+                            initParameterNames:
+                              type: object
                             effectiveMajorVersion:
                               type: integer
                               format: int32
@@ -1313,10 +1312,6 @@ paths:
                                     properties:
                                       buffer:
                                         type: string
-                                      deferredSyntaxAllowedAsLiteral:
-                                        type: string
-                                      scriptingInvalid:
-                                        type: string
                                       urlPatterns:
                                         type: array
                                         items:
@@ -1324,6 +1319,8 @@ paths:
                                       elIgnored:
                                         type: string
                                       pageEncoding:
+                                        type: string
+                                      scriptingInvalid:
                                         type: string
                                       isXml:
                                         type: string
@@ -1335,6 +1332,8 @@ paths:
                                         type: array
                                         items:
                                           type: string
+                                      deferredSyntaxAllowedAsLiteral:
+                                        type: string
                                       trimDirectiveWhitespaces:
                                         type: string
                                       defaultContentType:
@@ -1350,15 +1349,15 @@ paths:
                               type: string
                             responseCharacterEncoding:
                               type: string
-                        characterEncoding:
-                          type: string
-                        parameterNames:
-                          type: object
                         serverName:
                           type: string
                         serverPort:
                           type: integer
                           format: int32
+                        characterEncoding:
+                          type: string
+                        parameterNames:
+                          type: object
                         remoteAddr:
                           type: string
                         remoteHost:
@@ -1474,10 +1473,85 @@ paths:
           content:
             text/xml:
               schema:
-                $ref: '#/components/schemas/XML'
+                $ref: '#/components/schemas/ValidationResult'
         "405":
           description: Wrong method error message if the method is called wrong
 components:
   schemas:
+    ConversionAction:
+      type: object
+      properties:
+        conversionActionArguments:
+          $ref: '#/components/schemas/ConversionActionArguments'
+        converter:
+          $ref: '#/components/schemas/Converter'
+        conversionOutputType:
+          $ref: '#/components/schemas/DataType'
+        cost:
+          type: integer
+          format: int32
+        conversionInputType:
+          $ref: '#/components/schemas/DataType'
+    ConversionActionArguments:
+      type: object
+      properties:
+        propertiesDefinitions:
+          type: string
+        inputType:
+          $ref: '#/components/schemas/DataType'
+        outputType:
+          $ref: '#/components/schemas/DataType'
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+        visible:
+          type: boolean
+        cost:
+          type: integer
+          format: int32
+    ConversionsPath:
+      type: object
+      properties:
+        path:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConversionAction'
+        inputDataType:
+          $ref: '#/components/schemas/DataType'
+        outputDataType:
+          $ref: '#/components/schemas/DataType'
+        cost:
+          type: integer
+          format: int32
+    Converter:
+      type: object
+      properties:
+        possibleConversions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConversionActionArguments'
+    DataType:
+      type: object
+      properties:
+        format:
+          type: string
+        mimeType:
+          type: string
+        description:
+          type: string
     XML:
       type: object
+    ValidationResult:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - ERROR
+          - SUCCESS
+          - FATAL
+        messages:
+          type: array
+          items:
+            type: string
