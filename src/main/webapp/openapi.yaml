@@ -452,12 +452,6 @@ paths:
                           type: string
                         responseCharacterEncoding:
                           type: string
-                    valueNames:
-                      type: array
-                      items:
-                        type: string
-                    new:
-                      type: boolean
                     sessionContext:
                       type: object
                       properties:
@@ -469,6 +463,12 @@ paths:
                     maxInactiveInterval:
                       type: integer
                       format: int32
+                    valueNames:
+                      type: array
+                      items:
+                        type: string
+                    new:
+                      type: boolean
                 userPrincipal:
                   type: object
                   properties:

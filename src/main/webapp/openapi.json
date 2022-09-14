@@ -639,15 +639,6 @@
                           }
                         }
                       },
-                      "valueNames" : {
-                        "type" : "array",
-                        "items" : {
-                          "type" : "string"
-                        }
-                      },
-                      "new" : {
-                        "type" : "boolean"
-                      },
                       "sessionContext" : {
                         "type" : "object",
                         "properties" : {
@@ -663,6 +654,15 @@
                       "maxInactiveInterval" : {
                         "type" : "integer",
                         "format" : "int32"
+                      },
+                      "valueNames" : {
+                        "type" : "array",
+                        "items" : {
+                          "type" : "string"
+                        }
+                      },
+                      "new" : {
+                        "type" : "boolean"
                       }
                     }
                   },
