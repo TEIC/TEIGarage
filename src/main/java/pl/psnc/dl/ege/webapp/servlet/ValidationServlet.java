@@ -9,12 +9,29 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
+import org.json.XML;
 import pl.psnc.dl.ege.EGE;
 import pl.psnc.dl.ege.EGEImpl;
 import pl.psnc.dl.ege.exception.ValidatorException;
@@ -28,11 +45,14 @@ import pl.psnc.dl.ege.webapp.request.ValidationRequestResolver;
 /**
  * Serves validation operations in RESTful WS manner.
  */
+@OpenAPIDefinition(tags = {
+		@Tag(name = "ege-webservice", description = "Conversion, Validation and Customization")
+})
 public class ValidationServlet
 	extends HttpServlet
 {
 
-	private static final Logger LOGGER = Logger
+	private static final Logger LOGGER = LogManager
 			.getLogger(ValidationServlet.class);
 
 	private static final long serialVersionUID = 1L;
@@ -50,8 +70,19 @@ public class ValidationServlet
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response)
+	@GET
+	@Path("ege-webservice/Validation")
+	@Operation(summary = "Get all available validations", tags = "ege-webservice", description = "Return list of input data types and lists of possible validation paths", responses = {
+			@ApiResponse(
+					description = "List of possible validations is returned",
+					responseCode = "200",
+					content = @Content(mediaType = "text/xml", schema = @Schema(implementation = DataType.class))),
+			@ApiResponse(
+					description = "Wrong method error message if the method is called wrong",
+					responseCode = "405")
+	})
+	public void doGet(@Parameter(hidden = true) HttpServletRequest request,
+					  @Parameter(hidden = true) HttpServletResponse response)
 		throws ServletException, IOException
 	{
 		try {
@@ -89,13 +120,17 @@ public class ValidationServlet
 				response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 				return;
 			}
-			response.setContentType("text/xml");
-			out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-			out
-					.println("<validations xmlns:xlink=\"http://www.w3.org/1999/xlink\">");
 			String prefix = rr.getRequest().getRequestURL().toString()
 					+ (rr.getRequest().getRequestURL().toString().endsWith(
-						RequestResolver.SLASH) ? "" : "/");
+					RequestResolver.SLASH) ? "" : "/");
+			String baseprefix = rr.getRequest().getScheme() + "://" +
+					rr.getRequest().getServerName() + ((rr.getRequest().getServerPort() == 80 || rr.getRequest().getServerPort() == 443) ? "" : ":" + rr.getRequest().getServerPort())  +
+					rr.getRequest().getContextPath() + (rr.getRequest().getContextPath().toString().endsWith(
+					RequestResolver.SLASH) ? "" : "/");
+			response.setContentType("text/xml");
+			out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+			out.println("<validations xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"" + 	baseprefix
+			+ "schemas/validations.xsd\">");
 			for (DataType dt : dts) {
 				out.println("<input-data-type id=\"" + dt.toString()
 						+ "\" xlink:href=\"" + prefix + rr.encodeDataType(dt)
@@ -112,7 +147,28 @@ public class ValidationServlet
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request,
+	@Override
+	@POST
+	@Path("ege-webservice/Validation/{input-document-type}")
+	@Operation(summary = "Do validation", tags = "ege-webservice", description = "Validate files of different data formats",
+			parameters = {
+					@Parameter(
+							in = ParameterIn.PATH,
+							description = "Input document type",
+							required = true,
+							name = "input-document-type",
+							schema = @Schema(implementation = DataType.class))
+			},
+			responses = {
+					@ApiResponse(
+							description = "Validation Result",
+							responseCode = "200",
+							content = @Content(mediaType = "text/xml", schema = @Schema(implementation = ValidationResult.class))),
+					@ApiResponse(
+							description = "Wrong method error message if the method is called wrong",
+							responseCode = "405")
+			})
+	public void doPost(HttpServletRequest request,
 			HttpServletResponse response)
 		throws ServletException, IOException
 	{
@@ -159,7 +215,7 @@ public class ValidationServlet
 						is = item.openStream();
 						//perform validation and print result to response.
 						ValidationResult result = ege.performValidation(is, dt);
-						printValidationResult(response,result);
+						printValidationResult(response,result, rr);
 						is.close();
 					}
 				}
@@ -184,11 +240,19 @@ public class ValidationServlet
 		}
 	}
 	
-	public void printValidationResult(HttpServletResponse response, ValidationResult result) throws IOException{
+	public void printValidationResult(HttpServletResponse response, ValidationResult result, RequestResolver rr) throws IOException{
 		PrintWriter out = response.getWriter();
+		String prefix = rr.getRequest().getRequestURL().toString()
+				+ (rr.getRequest().getRequestURL().toString().endsWith(
+				RequestResolver.SLASH) ? "" : "/");
+		String baseprefix = rr.getRequest().getScheme() + "://" +
+				rr.getRequest().getServerName() + ((rr.getRequest().getServerPort() == 80 ||  rr.getRequest().getServerPort() == 443) ? "" : ":" + rr.getRequest().getServerPort())  +
+				rr.getRequest().getContextPath() + (rr.getRequest().getContextPath().toString().endsWith(
+				RequestResolver.SLASH) ? "" : "/");
 		response.setContentType("text/xml");
 		out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-		out.println("<validation-result>");
+		out.println("<validation-result xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"" + baseprefix
+				+ "schemas/validation-result.xsd\">");
 		out.println("<status>" + result.getStatus()
 				+ "</status>");
 		out.println("<messages>");

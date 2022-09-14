@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <xs:import namespace="http://www.w3.org/1999/xlink"
+    schemaLocation="https://www.w3.org/1999/xlink.xsd"/>
+  <xs:element name="validation-result">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="status" maxOccurs="1">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:minLength value="1"/>
+              <xs:enumeration value="SUCCESS"/>
+              <xs:enumeration value="ERROR"/>
+              <xs:enumeration value="FATAL"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+        <xs:element name="messages" minOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="message" minOccurs="0" maxOccurs="unbounded" type="xs:string"/>
+              </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

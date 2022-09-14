@@ -9,7 +9,8 @@ import java.util.Map;
 import java.util.Properties;
 import pl.psnc.dl.ege.configuration.EGEConstants;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Singleton class which provides EGE web application
@@ -24,7 +25,7 @@ public final class LabelProvider
 	
 	private static final String REGEXP_LABEL_CONT = "labels_[a-z][a-z].xml";
 	
-	private static final Logger LOGGER = Logger.getLogger(LabelProvider.class);
+	private static final Logger LOGGER = LogManager.getLogger(LabelProvider.class);
 	
 	private Map<String,Properties> labels; 
 	

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <xs:import namespace="http://www.w3.org/1999/xlink" schemaLocation="https://www.w3.org/1999/xlink.xsd"/>
+  <xs:element name="input-data-types">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="input-data-type" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="id" use="required" type="xs:string"/>
+            <xs:attribute ref="xlink:href" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>  
+</xs:schema>

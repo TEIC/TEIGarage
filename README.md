@@ -3,6 +3,8 @@
 [![Build Status](https://github.com/TEIC/TEIGarage/actions/workflows/maven_docker.yml/badge.svg)](https://github.com/TEIC/TEIGarage/actions/workflows/maven_docker.yml)
 [![GitHub license](https://img.shields.io/github/license/teic/TEIGarage.svg)](https://github.com/TEIC/TEIGarage/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/TEIC/TEIGarage.svg)](https://github.com/TEIC/TEIGarage/releases)
+[![Docker](https://img.shields.io/docker/pulls/teic/teigarage)](https://hub.docker.com/r/teic/teigarage)
+[![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B-yellow)](https://fair-software.eu)
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
@@ -37,7 +39,7 @@ docker run --rm \
 
 Once it's running, you can point your browser at `http://localhost:8080` for the graphical user interface and  http://localhost:8080/ege-webservice` for the webservice.
 
-You can also get the development version from DockerHub with `docker pull teic/teigarage:dev`.
+You can also get the development version from DockerHub using `docker pull teic/teigarage:dev`.
 
 ### available parameters
 

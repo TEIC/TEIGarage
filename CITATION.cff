@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Parkoła"
+  given-names: "Tomasz"
+- family-names: "Stanisławczyk"
+  given-names: "Mariusz"
+- family-names: "Cummings"
+  given-names: "James"
+- family-names: "Burnard"
+  given-names: "Lou"
+- family-names: "Rahtz"
+  given-names: "Sebastian"  
+- family-names: "Werla"
+  given-names: "Marcin"  
+- family-names: "Mittelbach"
+  given-names: "Arno"
+- family-names: "Cayless"
+  given-names: "Hugh"
+- family-names: "Viglianti"
+  given-names: "Raffaele"
+- family-names: "Röwenstrunk"
+  given-names: "Daniel"
+- family-names: "Stadler"
+  given-names: "Peter"
+- family-names: "Ferger"
+  given-names: "Anne"
+title: "TEIGarage"
+version: 1.0.0
+doi: 
+date-released: 2022-09-14
+url: "https://github.com/TEIC/TEIGarage"
