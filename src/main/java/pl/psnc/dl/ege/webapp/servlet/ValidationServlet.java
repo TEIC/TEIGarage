@@ -76,7 +76,7 @@ public class ValidationServlet
 			@ApiResponse(
 					description = "List of possible validations is returned",
 					responseCode = "200",
-					content = @Content(mediaType = "text/xml", schema = @Schema(implementation = XML.class))),
+					content = @Content(mediaType = "text/xml", schema = @Schema(implementation = DataType.class))),
 			@ApiResponse(
 					description = "Wrong method error message if the method is called wrong",
 					responseCode = "405")
@@ -120,13 +120,17 @@ public class ValidationServlet
 				response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 				return;
 			}
-			response.setContentType("text/xml");
-			out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-			out
-					.println("<validations xmlns:xlink=\"http://www.w3.org/1999/xlink\">");
 			String prefix = rr.getRequest().getRequestURL().toString()
 					+ (rr.getRequest().getRequestURL().toString().endsWith(
-						RequestResolver.SLASH) ? "" : "/");
+					RequestResolver.SLASH) ? "" : "/");
+			String baseprefix = rr.getRequest().getScheme() + "://" +
+					rr.getRequest().getServerName() + ":" + rr.getRequest().getServerPort() +
+					rr.getRequest().getContextPath() + (rr.getRequest().getContextPath().toString().endsWith(
+					RequestResolver.SLASH) ? "" : "/");
+			response.setContentType("text/xml");
+			out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+			out.println("<validations xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"" + 	baseprefix
+			+ "schemas/validations.xsd\">");
 			for (DataType dt : dts) {
 				out.println("<input-data-type id=\"" + dt.toString()
 						+ "\" xlink:href=\"" + prefix + rr.encodeDataType(dt)
@@ -153,13 +157,13 @@ public class ValidationServlet
 							description = "Input document type",
 							required = true,
 							name = "input-document-type",
-							schema = @Schema(type= "string", format="text/plain"))
+							schema = @Schema(implementation = DataType.class))
 			},
 			responses = {
 					@ApiResponse(
 							description = "Validation Result",
 							responseCode = "200",
-							content = @Content(mediaType = "text/xml", schema = @Schema(implementation = XML.class))),
+							content = @Content(mediaType = "text/xml", schema = @Schema(implementation = ValidationResult.class))),
 					@ApiResponse(
 							description = "Wrong method error message if the method is called wrong",
 							responseCode = "405")
@@ -211,7 +215,7 @@ public class ValidationServlet
 						is = item.openStream();
 						//perform validation and print result to response.
 						ValidationResult result = ege.performValidation(is, dt);
-						printValidationResult(response,result);
+						printValidationResult(response,result, rr);
 						is.close();
 					}
 				}
@@ -236,11 +240,19 @@ public class ValidationServlet
 		}
 	}
 	
-	public void printValidationResult(HttpServletResponse response, ValidationResult result) throws IOException{
+	public void printValidationResult(HttpServletResponse response, ValidationResult result, RequestResolver rr) throws IOException{
 		PrintWriter out = response.getWriter();
+		String prefix = rr.getRequest().getRequestURL().toString()
+				+ (rr.getRequest().getRequestURL().toString().endsWith(
+				RequestResolver.SLASH) ? "" : "/");
+		String baseprefix = rr.getRequest().getScheme() + "://" +
+				rr.getRequest().getServerName() + ":" + rr.getRequest().getServerPort() +
+				rr.getRequest().getContextPath() + (rr.getRequest().getContextPath().toString().endsWith(
+				RequestResolver.SLASH) ? "" : "/");
 		response.setContentType("text/xml");
 		out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-		out.println("<validation-result>");
+		out.println("<validation-result xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"" + baseprefix
+				+ "schemas/validation-result.xsd\">");
 		out.println("<status>" + result.getStatus()
 				+ "</status>");
 		out.println("<messages>");

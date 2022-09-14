@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <xs:import namespace="http://www.w3.org/1999/xlink"
+    schemaLocation="https://www.w3.org/1999/xlink.xsd"/>
+  <xs:element name="conversions-paths">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="conversions-path" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="path-name" type="xs:string" minOccurs="0"/>
+              <xs:element name="conversion" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="property" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="value" type="xs:string"/>
+                          <xs:element name="type" type="xs:string"/>
+                          <xs:element name="property-name" type="xs:string"/>
+                        </xs:sequence>
+                        <xs:attribute name="id" type="xs:string"/>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="id" use="required" type="xs:string"/>
+                  <xs:attribute name="index" use="required" type="xs:integer"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute ref="xlink:href" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
