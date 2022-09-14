@@ -208,7 +208,7 @@ public class ConversionServlet extends HttpServlet {
 		StringBuffer sbpath = new StringBuffer();
 		StringBuffer pathopt = new StringBuffer();
 		String baseprefix = rr.getRequest().getScheme() + "://" +
-				rr.getRequest().getServerName() + ":" + ((rr.getRequest().getServerPort() == 80 || rr.getRequest().getServerPort() == 443) ? "" : rr.getRequest().getServerPort())  +
+				rr.getRequest().getServerName() + ((rr.getRequest().getServerPort() == 80 ||  rr.getRequest().getServerPort() == 443) ? "" : ":" + rr.getRequest().getServerPort())  +
 				rr.getRequest().getContextPath() + (rr.getRequest().getContextPath().toString().endsWith(
 				RequestResolver.SLASH) ? "" : "/");
 		resp.append("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>");
@@ -288,7 +288,7 @@ public class ConversionServlet extends HttpServlet {
 	    try {
 		response.setContentType("text/xml");
 		String baseprefix = rr.getRequest().getScheme() + "://" +
-				rr.getRequest().getServerName() + ":" + ((rr.getRequest().getServerPort() == 80 || rr.getRequest().getServerPort() == 443) ? "" : rr.getRequest().getServerPort()) +
+				rr.getRequest().getServerName() + ((rr.getRequest().getServerPort() == 80 ||  rr.getRequest().getServerPort() == 443) ? "" : ":" + rr.getRequest().getServerPort()) +
 				rr.getRequest().getContextPath() + (rr.getRequest().getContextPath().toString().endsWith(
 				RequestResolver.SLASH) ? "" : "/");
 		String prefix = rr.getRequest().getRequestURL().toString()

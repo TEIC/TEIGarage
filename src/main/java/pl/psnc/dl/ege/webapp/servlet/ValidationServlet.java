@@ -246,7 +246,7 @@ public class ValidationServlet
 				+ (rr.getRequest().getRequestURL().toString().endsWith(
 				RequestResolver.SLASH) ? "" : "/");
 		String baseprefix = rr.getRequest().getScheme() + "://" +
-				rr.getRequest().getServerName() + ":" + ((rr.getRequest().getServerPort() == 80 || rr.getRequest().getServerPort() == 443) ? "" : rr.getRequest().getServerPort())  +
+				rr.getRequest().getServerName() + ((rr.getRequest().getServerPort() == 80 ||  rr.getRequest().getServerPort() == 443) ? "" : ":" + rr.getRequest().getServerPort())  +
 				rr.getRequest().getContextPath() + (rr.getRequest().getContextPath().toString().endsWith(
 				RequestResolver.SLASH) ? "" : "/");
 		response.setContentType("text/xml");
