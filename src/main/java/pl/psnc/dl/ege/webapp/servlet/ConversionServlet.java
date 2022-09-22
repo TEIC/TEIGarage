@@ -37,6 +37,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.fileupload.FileItemIterator;
@@ -337,6 +338,11 @@ public class ConversionServlet extends HttpServlet {
 							name = "output-document-type",
 							schema = @Schema(type= "string", format="text/plain"))
             },
+			requestBody = {@RequestBody(
+					description = "input document", required = true,
+					content = @Content(
+							schema = @Schema(implementation = User.class))
+			)},
             responses = {
                     @ApiResponse(
                             description = "The content of the converted file",
