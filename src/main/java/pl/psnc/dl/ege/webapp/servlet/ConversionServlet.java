@@ -211,7 +211,7 @@ public class ConversionServlet extends HttpServlet {
 				rr.getRequest().getServerName() + ((rr.getRequest().getServerPort() == 80 ||  rr.getRequest().getServerPort() == 443) ? "" : ":" + rr.getRequest().getServerPort())  +
 				rr.getRequest().getContextPath() + (rr.getRequest().getContextPath().toString().endsWith(
 				RequestResolver.SLASH) ? "" : "/");
-		resp.append("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>");
+		resp.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		resp.append("<conversions-paths xmlns:xlink=\"http://www.w3.org/1999/xlink\"  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"" +
 				baseprefix + "schemas/conversions-paths.xsd\">");
 		int counter = 0;
