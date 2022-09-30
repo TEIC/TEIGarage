@@ -197,7 +197,7 @@ public class ConversionServlet extends HttpServlet {
 	protected void printConversionsPaths(HttpServletResponse response,
 			RequestResolver rr, List<ConversionsPath> paths) throws IOException {
 		LabelProvider lp = getLabelProvider();
-		response.setContentType("text/xml");
+		response.setContentType("text/xml;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		if (paths.isEmpty()) {
 			response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -285,9 +285,9 @@ public class ConversionServlet extends HttpServlet {
 	protected void printConversionPossibilities(HttpServletResponse response,
 			RequestResolver rr, Set<DataType> inputDataTypes)
 			throws IOException {
+		response.setContentType("text/xml;charset=utf-8");
 		PrintWriter out = response.getWriter();
 	    try {
-		response.setContentType("text/xml");
 		String baseprefix = rr.getRequest().getScheme() + "://" +
 				rr.getRequest().getServerName() + ((rr.getRequest().getServerPort() == 80 ||  rr.getRequest().getServerPort() == 443) ? "" : ":" + rr.getRequest().getServerPort()) +
 				rr.getRequest().getContextPath() + (rr.getRequest().getContextPath().toString().endsWith(

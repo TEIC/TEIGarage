@@ -102,5 +102,7 @@ VOLUME ["/usr/share/xml/tei/stylesheet", "/usr/share/xml/tei/odd"]
 
 EXPOSE 8080 8081
 
+HEALTHCHECK CMD curl --fail http://localhost:8080/ege-webservice/Info || exit 1
+
 ENTRYPOINT ["/my-docker-entrypoint.sh"]
 CMD ["catalina.sh", "run"]
