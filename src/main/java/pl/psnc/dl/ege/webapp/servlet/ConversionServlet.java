@@ -338,11 +338,6 @@ public class ConversionServlet extends HttpServlet {
 							name = "output-document-type",
 							schema = @Schema(type= "string", format="text/plain"))
             },
-			requestBody = {@RequestBody(
-					description = "input document", required = true,
-					content = @Content(
-							schema = @Schema(implementation = User.class))
-			)},
             responses = {
                     @ApiResponse(
                             description = "The content of the converted file",

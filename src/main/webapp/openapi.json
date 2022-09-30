@@ -143,43 +143,6 @@
                   "method" : {
                     "type" : "string"
                   },
-                  "cookies" : {
-                    "type" : "array",
-                    "items" : {
-                      "type" : "object",
-                      "properties" : {
-                        "name" : {
-                          "type" : "string"
-                        },
-                        "value" : {
-                          "type" : "string"
-                        },
-                        "comment" : {
-                          "type" : "string"
-                        },
-                        "domain" : {
-                          "type" : "string"
-                        },
-                        "maxAge" : {
-                          "type" : "integer",
-                          "format" : "int32"
-                        },
-                        "path" : {
-                          "type" : "string"
-                        },
-                        "secure" : {
-                          "type" : "boolean"
-                        },
-                        "version" : {
-                          "type" : "integer",
-                          "format" : "int32"
-                        },
-                        "httpOnly" : {
-                          "type" : "boolean"
-                        }
-                      }
-                    }
-                  },
                   "session" : {
                     "type" : "object",
                     "properties" : {
@@ -639,18 +602,6 @@
                           }
                         }
                       },
-                      "sessionContext" : {
-                        "type" : "object",
-                        "properties" : {
-                          "ids" : {
-                            "type" : "object"
-                          }
-                        }
-                      },
-                      "lastAccessedTime" : {
-                        "type" : "integer",
-                        "format" : "int64"
-                      },
                       "maxInactiveInterval" : {
                         "type" : "integer",
                         "format" : "int32"
@@ -661,8 +612,20 @@
                           "type" : "string"
                         }
                       },
+                      "lastAccessedTime" : {
+                        "type" : "integer",
+                        "format" : "int64"
+                      },
                       "new" : {
                         "type" : "boolean"
+                      },
+                      "sessionContext" : {
+                        "type" : "object",
+                        "properties" : {
+                          "ids" : {
+                            "type" : "object"
+                          }
+                        }
                       }
                     }
                   },
@@ -671,6 +634,43 @@
                     "properties" : {
                       "name" : {
                         "type" : "string"
+                      }
+                    }
+                  },
+                  "cookies" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object",
+                      "properties" : {
+                        "name" : {
+                          "type" : "string"
+                        },
+                        "value" : {
+                          "type" : "string"
+                        },
+                        "comment" : {
+                          "type" : "string"
+                        },
+                        "domain" : {
+                          "type" : "string"
+                        },
+                        "maxAge" : {
+                          "type" : "integer",
+                          "format" : "int32"
+                        },
+                        "path" : {
+                          "type" : "string"
+                        },
+                        "secure" : {
+                          "type" : "boolean"
+                        },
+                        "version" : {
+                          "type" : "integer",
+                          "format" : "int32"
+                        },
+                        "httpOnly" : {
+                          "type" : "boolean"
+                        }
                       }
                     }
                   },
@@ -2138,12 +2138,12 @@
           "conversionOutputType" : {
             "$ref" : "#/components/schemas/DataType"
           },
+          "conversionInputType" : {
+            "$ref" : "#/components/schemas/DataType"
+          },
           "cost" : {
             "type" : "integer",
             "format" : "int32"
-          },
-          "conversionInputType" : {
-            "$ref" : "#/components/schemas/DataType"
           }
         }
       },
