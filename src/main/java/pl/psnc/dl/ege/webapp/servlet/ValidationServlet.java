@@ -114,6 +114,7 @@ public class ValidationServlet
 	{
 		EGE ege = new EGEImpl();
 		try {
+			response.setContentType("text/xml;charset=utf-8");
 			PrintWriter out = response.getWriter();
 			Set<DataType> dts = ege.returnSupportedValidationFormats();
 			if(dts.size() == 0){
@@ -127,7 +128,6 @@ public class ValidationServlet
 					rr.getRequest().getServerName() + ((rr.getRequest().getServerPort() == 80 || rr.getRequest().getServerPort() == 443) ? "" : ":" + rr.getRequest().getServerPort())  +
 					rr.getRequest().getContextPath() + (rr.getRequest().getContextPath().toString().endsWith(
 					RequestResolver.SLASH) ? "" : "/");
-			response.setContentType("text/xml");
 			out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 			out.println("<validations xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"" + 	baseprefix
 			+ "schemas/validations.xsd\">");
@@ -241,6 +241,7 @@ public class ValidationServlet
 	}
 	
 	public void printValidationResult(HttpServletResponse response, ValidationResult result, RequestResolver rr) throws IOException{
+		response.setContentType("text/xml;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		String prefix = rr.getRequest().getRequestURL().toString()
 				+ (rr.getRequest().getRequestURL().toString().endsWith(
@@ -249,7 +250,6 @@ public class ValidationServlet
 				rr.getRequest().getServerName() + ((rr.getRequest().getServerPort() == 80 ||  rr.getRequest().getServerPort() == 443) ? "" : ":" + rr.getRequest().getServerPort())  +
 				rr.getRequest().getContextPath() + (rr.getRequest().getContextPath().toString().endsWith(
 				RequestResolver.SLASH) ? "" : "/");
-		response.setContentType("text/xml");
 		out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		out.println("<validation-result xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"" + baseprefix
 				+ "schemas/validation-result.xsd\">");

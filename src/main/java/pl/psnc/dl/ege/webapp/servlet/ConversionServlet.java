@@ -37,6 +37,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.fileupload.FileItemIterator;
@@ -196,7 +197,7 @@ public class ConversionServlet extends HttpServlet {
 	protected void printConversionsPaths(HttpServletResponse response,
 			RequestResolver rr, List<ConversionsPath> paths) throws IOException {
 		LabelProvider lp = getLabelProvider();
-		response.setContentType("text/xml");
+		response.setContentType("text/xml;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		if (paths.isEmpty()) {
 			response.setStatus(HttpServletResponse.SC_NO_CONTENT);
@@ -211,7 +212,7 @@ public class ConversionServlet extends HttpServlet {
 				rr.getRequest().getServerName() + ((rr.getRequest().getServerPort() == 80 ||  rr.getRequest().getServerPort() == 443) ? "" : ":" + rr.getRequest().getServerPort())  +
 				rr.getRequest().getContextPath() + (rr.getRequest().getContextPath().toString().endsWith(
 				RequestResolver.SLASH) ? "" : "/");
-		resp.append("<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>");
+		resp.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		resp.append("<conversions-paths xmlns:xlink=\"http://www.w3.org/1999/xlink\"  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"" +
 				baseprefix + "schemas/conversions-paths.xsd\">");
 		int counter = 0;
@@ -284,9 +285,9 @@ public class ConversionServlet extends HttpServlet {
 	protected void printConversionPossibilities(HttpServletResponse response,
 			RequestResolver rr, Set<DataType> inputDataTypes)
 			throws IOException {
+		response.setContentType("text/xml;charset=utf-8");
 		PrintWriter out = response.getWriter();
 	    try {
-		response.setContentType("text/xml");
 		String baseprefix = rr.getRequest().getScheme() + "://" +
 				rr.getRequest().getServerName() + ((rr.getRequest().getServerPort() == 80 ||  rr.getRequest().getServerPort() == 443) ? "" : ":" + rr.getRequest().getServerPort()) +
 				rr.getRequest().getContextPath() + (rr.getRequest().getContextPath().toString().endsWith(
