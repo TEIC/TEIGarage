@@ -22,6 +22,8 @@ TEIGarage is based on the proven [OxGarage](https://github.com/TEIC/oxgarage).
 
 Further information on the code structure of MEIGarage and TEIGarage can be found [here](https://github.com/Edirom/MEIGarage/blob/main/doc/code-structure.md).
 
+A running instance of TEIGarage can be found at [teigarage.tei-c.org](https://teigarage.tei-c.org/).
+
 # Installation
 
 ## Installing with Docker
