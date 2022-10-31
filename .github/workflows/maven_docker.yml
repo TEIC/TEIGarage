@@ -56,7 +56,7 @@ jobs:
       # use the current user to log into the 
       # GitHub container registry 
       - name: Log in to GitHub Container registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -64,7 +64,7 @@ jobs:
       
       # Login against DockerHub registry
       - name: Log in to DockerHub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.PETERS_DOCKERHUB_USERNAME }}
           password: ${{ secrets.PETERS_DOCKERHUB_TOKEN }}
@@ -73,7 +73,7 @@ jobs:
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: |
             ghcr.io/teic/teigarage
@@ -84,7 +84,7 @@ jobs:
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
