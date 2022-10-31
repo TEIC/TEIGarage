@@ -26,7 +26,7 @@ Further information on the code structure of MEIGarage and TEIGarage can be foun
 
 ## Installing with Docker
 
-With Docker installed, a readymade image can be fetched from the [GitHub Action](https://github.com/TEIC/TEIGarage/blob/main/.github/workflows/maven_docker.yml) or from [DockerHub](https://hub.docker.com/r/teic/teigarage/tags).
+With Docker installed, a readymade image can be fetched from the [GitHub Container Registry](https://github.com/TEIC/TEIGarage/pkgs/container/teigarage) or from [DockerHub](https://hub.docker.com/r/teic/teigarage/tags).
 
 `docker pull ghcr.io/teic/teigarage:latest`
 
