@@ -92,3 +92,10 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             BUILDTYPE=github
+      # Use current README for DockerHub description
+      - name: Update repo description
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.PETERS_DOCKERHUB_USERNAME }}
+          password: ${{ secrets.PETERS_DOCKERHUB_TOKEN }}
+          repository: teic/teigarage
