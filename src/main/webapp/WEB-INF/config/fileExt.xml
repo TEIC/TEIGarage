@@ -11,6 +11,7 @@
 	<mime-ext mime="application/relaxng-compact" ext=".rnc" />
 	<mime-ext mime="application/zip" ext=".zip" />
 	<mime-ext mime="application/epub+zip" ext=".epub" />
+	<mime-ext mime="application/epub3+zip" ext=".epub" />
 	<mime-ext mime="application/vnd.oasis.opendocument.text" ext=".odt" />
 	<mime-ext mime="application/pdf" ext=".pdf" />
 	<mime-ext mime="application/msword" ext=".doc" />
