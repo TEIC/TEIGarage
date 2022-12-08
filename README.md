@@ -20,13 +20,15 @@
 TEIGarage is a webservice and RESTful service to transform, convert and validate various formats, focussing on the [TEI](https://tei-c.org/) format.
 TEIGarage is based on the proven [OxGarage](https://github.com/TEIC/oxgarage). 
 
-Further information on the code structure of MEIGarage and TEIGarage can be found [here](https://github.com/Edirom/MEIGarage/blob/main/doc/code-structure.md).
+Further information on the **code structure** of MEIGarage and TEIGarage can be found [here](https://github.com/Edirom/MEIGarage/blob/main/doc/code-structure.md). Information in form of **presentation slides** and posters can be found [here](https://anneferger.github.io/MEITEIGarage/).
+
+A running instance of TEIGarage can be found at [teigarage.tei-c.org](https://teigarage.tei-c.org/).
 
 # Installation
 
 ## Installing with Docker
 
-With Docker installed, a readymade image can be fetched from the [GitHub Action](https://github.com/TEIC/TEIGarage/blob/main/.github/workflows/maven_docker.yml).
+With Docker installed, a readymade image can be fetched from the [GitHub Container Registry](https://github.com/TEIC/TEIGarage/pkgs/container/teigarage) or from [DockerHub](https://hub.docker.com/r/teic/teigarage/tags).
 
 `docker pull ghcr.io/teic/teigarage:latest`
 
@@ -100,7 +102,7 @@ For HTTPS connections behind a
 ### Getting the application packages
 
 The latest released application package (WAR file) is available from the [TEIGarage release page](https://github.com/TEIC/TEIGarage/releases). 
-The latest dev version can be downloaded via [nightly.link](https://nightly.link/) from the [GitHub Action](https://github.com/TEIC/TEIGarage/blob/main/.github/workflows/maven.yml) at [nightly.link/TEIC/TEIGarage/workflows/maven/main/artifact.zip](https://nightly.link/TEIC/TEIGarage/workflows/maven/main/artifact.zip).
+The latest dev version can be downloaded via [nightly.link](https://nightly.link/) from the [GitHub Action](https://github.com/TEIC/TEIGarage/blob/main/.github/workflows/maven_docker.yml) at [nightly.link/TEIC/TEIGarage/workflows/maven_docker/main/artifact.zip](https://nightly.link/TEIC/TEIGarage/workflows/maven_docker/main/artifact.zip).
 
 The war file could also be build locally, see [Building with Maven](#building-with-maven). 
 
@@ -129,7 +131,8 @@ The TEIGarage Java project can be built with Maven using
 
 `mvn -B package --file pom.xml`
 
-Readymade .war files can be downloaded from the [GitHub Action using nightly.link](https://nightly.link/TEIC/TEIGarage/workflows/maven/main/artifact.zip)
+Readymade .war files can be downloaded from the [GitHub Action using nightly.link](https://nightly.link/TEIC/TEIGarage/workflows/maven_docker/main/artifact.zip). For the required Java version see:
+https://github.com/TEIC/TEIGarage/blob/48726dd73a49b1c284d174dc68c26e6fe9cdb03d/.github/workflows/maven_docker.yml#L21.
 
 ## dependencies
 

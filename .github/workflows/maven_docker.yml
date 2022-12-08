@@ -14,14 +14,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up JDK 11
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
         java-version: '11'
         distribution: 'adopt'
     - name: maven-settings
-      uses: s4u/maven-settings-action@v2
+      uses: s4u/maven-settings-action@v2.7.0
       with:
         servers: '[{"id": "edirom", "username": "${github.actor}", "password": "${GITHUB_TOKEN}"},{"id": "teic", "username": "${github.actor}", "password": "${GITHUB_TOKEN}"}]'
     - name: Build with Maven
@@ -29,7 +29,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: mvn clean package --file pom.xml
     - name: Upload Maven build artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: artifact
         path: /home/runner/work/TEIGarage/TEIGarage/target/teigarage.war
@@ -41,7 +41,7 @@ jobs:
     if: ${{ github.event_name != 'pull_request' }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
        
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -56,7 +56,7 @@ jobs:
       # use the current user to log into the 
       # GitHub container registry 
       - name: Log in to GitHub Container registry
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -64,7 +64,7 @@ jobs:
       
       # Login against DockerHub registry
       - name: Log in to DockerHub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v2
         with:
           username: ${{ secrets.PETERS_DOCKERHUB_USERNAME }}
           password: ${{ secrets.PETERS_DOCKERHUB_TOKEN }}
@@ -73,7 +73,7 @@ jobs:
       # https://github.com/docker/metadata-action
       - name: Extract Docker metadata
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: |
             ghcr.io/teic/teigarage
@@ -84,7 +84,7 @@ jobs:
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v3
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
@@ -92,3 +92,10 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             BUILDTYPE=github
+      # Use current README for DockerHub description
+      - name: Update repo description
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.PETERS_DOCKERHUB_USERNAME }}
+          password: ${{ secrets.PETERS_DOCKERHUB_TOKEN }}
+          repository: teic/teigarage
