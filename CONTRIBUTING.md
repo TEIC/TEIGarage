@@ -7,7 +7,7 @@ The following is a set of guidelines for contributing to the TEIGarage. These ar
 
 ## I don't want to read this whole thing I just have a question!!!
 
-The best way to initially get in touch with the TEIGarage community is to start a discussion here at [GitHub Discussions].
+The best way to initially get in touch with the TEIGarage community is to start a discussion here at [GitHub Discussions] or join the [TEI mailing list](https://tei-c.org/support/#tei-l).
 
 
 ## Bug reports and feature requests
