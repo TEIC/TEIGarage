@@ -5,6 +5,7 @@
 [![GitHub release](https://img.shields.io/github/v/release/TEIC/TEIGarage.svg)](https://github.com/TEIC/TEIGarage/releases)
 [![Docker](https://img.shields.io/docker/pulls/teic/teigarage)](https://hub.docker.com/r/teic/teigarage)
 [![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B-yellow)](https://fair-software.eu)
+[![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/6925/badge)](https://bestpractices.coreinfrastructure.org/projects/6925)
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
