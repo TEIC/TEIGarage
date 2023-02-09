@@ -106,12 +106,39 @@
           "200": {
             "description": "The content of the converted file",
             "content": {
-              "application/octet-stream": {
+              "application/pdf": {
                 "schema": {
                   "type": "string",
                   "format": "binary"
+                },
+                "examples": {
+                  "sampleFile": {
+                    "summary": "A sample file",
+                    "externalValue": "https://tei-c.org/release/doc/tei-p5-doc/en/Guidelines.pdf"
+                  }
                 }
               }
+            }
+          },
+          "405": {
+            "description": "Wrong method error message if the method is called wrong"
+          }
+        }
+      }
+    },
+    "/ege-webservice/Info": {
+      "get": {
+        "tags": [
+          "ege-webservice"
+        ],
+        "summary": "Get info on webservice",
+        "description": "Return list of info on webservice",
+        "operationId": "doGet_2",
+        "responses": {
+          "200": {
+            "description": "List of info is returned",
+            "content": {
+              "application/json": {}
             }
           },
           "405": {
