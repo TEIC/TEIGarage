@@ -56,8 +56,9 @@ COPY log4j.xml /var/cache/oxgarage/log4j.xml
 
 # download artifacts to /tmp and deploy them at ${CATALINA_WEBAPPS}
 # these war-files are zipped so we need to unzip them twice
-#conditional copy in docker needs a strange hack
-COPY log4j.xml artifact/teigarage.wa[r] /tmp/
+# conditional copy in docker needs a strange hack
+# docker behavior on this changed, hack is not needed anymore
+COPY artifac[t]/teigarage.wa[r] /tmp/
 
 RUN if [ "$BUILDTYPE" = "local" ] ; then \
     curl -Ls ${WEBSERVICE_ARTIFACT} -o /tmp/teigarage.zip \
