@@ -5,7 +5,7 @@
 # of both the ege-webclient and the TEIGarage (backend),
 # and installs it in a Tomcat application server
 #########################################
-FROM tomcat:9-jdk11-openjdk
+FROM tomcat:9-jdk11
 
 LABEL org.opencontainers.image.source=https://github.com/teic/teigarage
 
@@ -36,6 +36,7 @@ RUN apt-get update \
     libgcc-10-dev \
     librsvg2-bin \
     curl \
+    unzip \
     && ln -s ${OFFICE_HOME} /usr/lib/openoffice \
     && rm -rf /var/lib/apt/lists/*
 
