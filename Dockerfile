@@ -60,7 +60,7 @@ COPY log4j.xml /var/cache/oxgarage/log4j.xml
 COPY artifact/teigarage.war /tmp/
 # if the action is run on github, the war is already located in the artifact folder because of the previous github action
 RUN if [ "$BUILDTYPE" = "github" ] ; then \
-    cp /home/runner/work/TEIGarage/TEIGarage/artifact/teigarage.war /tmp/; \
+    cp artifact/teigarage.war /tmp/ ; \
     fi 
 
 
