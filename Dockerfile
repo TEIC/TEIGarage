@@ -57,11 +57,12 @@ COPY log4j.xml /var/cache/oxgarage/log4j.xml
 
 # download artifacts to /tmp and deploy them at ${CATALINA_WEBAPPS}
 
-
+COPY artifact/teigarage.war /tmp/
 # if the action is run on github, the war is already located in the artifact folder because of the previous github action
 RUN if [ "$BUILDTYPE" = "github" ] ; then \
-    cp /home/runner/work/TEIGarage/TEIGarage/artifact/artifact/teigarage.war /tmp/; \
+    cp /home/runner/work/TEIGarage/TEIGarage/artifact/teigarage.war /tmp/; \
     fi 
+
 
 # if docker build is local the latest artifact needs to be downloaded using the nightly link url
 RUN if [ "$BUILDTYPE" = "local" ] ; then \
