@@ -8,8 +8,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 import org.json.XML;
 import pl.psnc.dl.ege.webapp.servlethelpers.Customization;
 
@@ -27,9 +25,6 @@ import java.io.IOException;
         @Tag(name = "ege-webservice", description = "Conversion, Validation and Customization")
 })
 public class CustomizationServlet extends HttpServlet {
-
-    private static final Logger LOGGER = LogManager
-            .getLogger(CustomizationServlet.class);
 
     private static final long serialVersionUID = 1L;
 

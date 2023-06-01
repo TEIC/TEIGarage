@@ -18,8 +18,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 
 import pl.psnc.dl.ege.types.DataType;
@@ -37,8 +35,6 @@ public class ValidationServlet
 	extends HttpServlet
 {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(ValidationServlet.class);
 
 	private static final long serialVersionUID = 1L;
 

@@ -159,6 +159,24 @@
           <finalName>${project.artifactId}-${project.version}</finalName>
         </configuration>
       </plugin>-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+            <failOnViolation>false</failOnViolation>
+            <printFailingErrors>true</printFailingErrors>
+            <linkXRef>false</linkXRef>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
