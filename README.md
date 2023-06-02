@@ -11,10 +11,12 @@
 ## Table of Contents
 
 * [About the Project](#about)
+* [How to use](#how-to-use)
 * [Installation](#installation)
     * [With Docker](#installing-with-docker)
     * [Without Docker](#installing-without-docker)
 * [Building with Maven](#building-with-maven)
+
 
 # About
 
@@ -24,6 +26,14 @@ TEIGarage is based on the proven [OxGarage](https://github.com/TEIC/oxgarage).
 Further information on the **code structure** of MEIGarage and TEIGarage can be found [here](https://github.com/Edirom/MEIGarage/blob/main/doc/code-structure.md). Information in form of **presentation slides** and posters can be found [here](https://anneferger.github.io/MEITEIGarage/).
 
 A running instance of TEIGarage can be found at [teigarage.tei-c.org](https://teigarage.tei-c.org/).
+
+# How to use
+
+Open API documentation can be found at https://github.com/TEIC/TEIGarage/blob/main/src/main/webapp/openapi.json or at the running instance https://teigarage.tei-c.org/ege-webservice/. A curl example call to the API to convert an existing .docx to a TEI file looks like
+
+```
+curl -o output.xml -F upload=@input.docx https://teigarage.tei-c.org/ege-webservice/Conversions/docx%3Aapplication%3Avnd.openxmlformats-officedocument.wordprocessingml.document/TEI%3Atext%3Axml/
+```
 
 # Installation
 
