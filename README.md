@@ -6,6 +6,7 @@
 [![Docker](https://img.shields.io/docker/pulls/teic/teigarage)](https://hub.docker.com/r/teic/teigarage)
 [![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F-green)](https://fair-software.eu)
 [![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/6925/badge)](https://bestpractices.coreinfrastructure.org/projects/6925)
+[![NFDI4C Registry](https://img.shields.io/badge/included%20in%20NFDI4C%20registry-64BEA0)](https://nfdi4culture.de/resources/registry/details/teigarage)
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
