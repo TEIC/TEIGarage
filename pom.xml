@@ -162,7 +162,7 @@
     <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.21.0</version>
+        <version>3.21.2</version>
         <configuration>
             <failOnViolation>false</failOnViolation>
             <printFailingErrors>true</printFailingErrors>
@@ -172,7 +172,7 @@
     <plugin>
       <groupId>org.owasp</groupId>
       <artifactId>dependency-check-maven</artifactId>
-      <version>8.3.1</version>
+      <version>9.0.1</version>
       <executions>
           <execution>
               <goals>
@@ -194,12 +194,12 @@
     <dependency>
       <groupId>io.swagger.core.v3</groupId>
       <artifactId>swagger-jaxrs2</artifactId>
-      <version>2.2.14</version>
+      <version>2.2.19</version>
     </dependency>
     <dependency>
       <groupId>io.swagger.core.v3</groupId>
       <artifactId>swagger-jaxrs2-servlet-initializer-v2</artifactId>
-      <version>2.2.14</version>
+      <version>2.2.19</version>
     </dependency>
     <dependency>
       <groupId>javax.ws.rs</groupId>
