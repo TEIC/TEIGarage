@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 
 
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
@@ -26,8 +25,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 import org.json.XML;
 
@@ -57,24 +54,6 @@ import pl.psnc.dl.ege.webapp.servlethelpers.Conversion;
 )
 public class ConversionServlet extends HttpServlet {
 
-	private static final String imagesDirectory = "media";
-
-	private static final String EZP_EXT = ".ezp";
-
-	private static final String FORMAT_DOCX = "docx";
-
-	private static final String FORMAT_ODT = "oo";
-
-	private static final String APPLICATION_MSWORD = "application/msword";
-
-	private static final String APPLICATION_EPUB = "application/epub+zip";
-
-	private static final String APPLICATION_ODT = "application/vnd.oasis.opendocument.text";
-
-	private static final String APPLICATION_OCTET_STREAM = "application/octet-stream";
-
-	private static final Logger LOGGER = LogManager.getLogger(ConversionServlet.class);
-
 	private static final long serialVersionUID = 1L;
 
 	public static final String SLASH = "/";
@@ -83,15 +62,7 @@ public class ConversionServlet extends HttpServlet {
 
 	public static final String SEMICOLON = ";";
 
-	public static final String R_WRONG_METHOD = "Wrong method: GET, expected: POST.";
-
 	public static final String CONVERSIONS_SLICE_BASE = "Conversions/";
-
-	public static final String ZIP_EXT = ".zip";
-
-	public static final String DOCX_EXT = ".docx";
-
-	public static final String EPUB_EXT = ".epub";
 
 	public static final String ODT_EXT = ".odt";
 
@@ -102,7 +73,6 @@ public class ConversionServlet extends HttpServlet {
 	 */
 	public ConversionServlet() {
 		super();
-		Conversion conversion = new Conversion();
 	}
 
     /**

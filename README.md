@@ -4,17 +4,20 @@
 [![GitHub license](https://img.shields.io/github/license/teic/TEIGarage.svg)](https://github.com/TEIC/TEIGarage/blob/main/LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/TEIC/TEIGarage.svg)](https://github.com/TEIC/TEIGarage/releases)
 [![Docker](https://img.shields.io/docker/pulls/teic/teigarage)](https://hub.docker.com/r/teic/teigarage)
-[![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B-yellow)](https://fair-software.eu)
+[![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F-green)](https://fair-software.eu)
 [![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/6925/badge)](https://bestpractices.coreinfrastructure.org/projects/6925)
+[![NFDI4C Registry](https://img.shields.io/badge/NFDI4Culture%20Registry-64BEA0)](https://nfdi4culture.de/id/E4102)
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
 
 * [About the Project](#about)
+* [How to use](#how-to-use)
 * [Installation](#installation)
     * [With Docker](#installing-with-docker)
     * [Without Docker](#installing-without-docker)
 * [Building with Maven](#building-with-maven)
+
 
 # About
 
@@ -24,6 +27,14 @@ TEIGarage is based on the proven [OxGarage](https://github.com/TEIC/oxgarage).
 Further information on the **code structure** of MEIGarage and TEIGarage can be found [here](https://github.com/Edirom/MEIGarage/blob/main/doc/code-structure.md). Information in form of **presentation slides** and posters can be found [here](https://anneferger.github.io/MEITEIGarage/).
 
 A running instance of TEIGarage can be found at [teigarage.tei-c.org](https://teigarage.tei-c.org/).
+
+# How to use
+
+Open API documentation can be found at https://github.com/TEIC/TEIGarage/blob/main/src/main/webapp/openapi.json or at the running instance https://teigarage.tei-c.org/ege-webservice/. A curl example call to the API to convert an existing .docx to a TEI file looks like
+
+```
+curl -o output.xml -F upload=@input.docx https://teigarage.tei-c.org/ege-webservice/Conversions/docx%3Aapplication%3Avnd.openxmlformats-officedocument.wordprocessingml.document/TEI%3Atext%3Axml/
+```
 
 # Installation
 

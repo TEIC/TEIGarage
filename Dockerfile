@@ -5,7 +5,7 @@
 # of both the ege-webclient and the TEIGarage (backend),
 # and installs it in a Tomcat application server
 #########################################
-FROM tomcat:9-jdk11-openjdk
+FROM tomcat:9-jdk11
 
 LABEL org.opencontainers.image.source=https://github.com/teic/teigarage
 
@@ -36,6 +36,7 @@ RUN apt-get update \
     libgcc-10-dev \
     librsvg2-bin \
     curl \
+    unzip \
     && ln -s ${OFFICE_HOME} /usr/lib/openoffice \
     && rm -rf /var/lib/apt/lists/*
 
@@ -55,15 +56,23 @@ COPY log4j.xml /var/cache/oxgarage/log4j.xml
 #    && unzip /tmp/webservice.zip -d /tmp/  
 
 # download artifacts to /tmp and deploy them at ${CATALINA_WEBAPPS}
-# these war-files are zipped so we need to unzip them twice
-#conditional copy in docker needs a strange hack
-COPY log4j.xml artifact/teigarage.wa[r] /tmp/
 
+
+# if the action is run on github, the war is already located in the artifact folder because of the previous github action
+#RUN if [ "$BUILDTYPE" = "github" ] ; then \
+#    cp artifact/teigarage.war /tmp/ ; \
+#    fi 
+COPY artifac[t]/teigarage.wa[r] /tmp/
+
+# if docker build is local the latest artifact needs to be downloaded using the nightly link url
 RUN if [ "$BUILDTYPE" = "local" ] ; then \
     curl -Ls ${WEBSERVICE_ARTIFACT} -o /tmp/teigarage.zip \
     && unzip -o -q /tmp/teigarage.zip -d /tmp/; \
-    fi \
-    && unzip -q /tmp/teigarage.war -d ${CATALINA_WEBAPPS}/ege-webservice/ \
+    fi 
+
+# these war-files are zipped so we need to unzip them twice
+# the GUI/webclient needs to be downloaded locally and on github
+RUN unzip -q /tmp/teigarage.war -d ${CATALINA_WEBAPPS}/ege-webservice/ \
     && rm -Rf ${CATALINA_WEBAPPS}/ROOT \
     && curl -Ls ${WEBCLIENT_ARTIFACT} -o /tmp/webclient.zip \
     && unzip -q /tmp/webclient.zip -d /tmp/ \
