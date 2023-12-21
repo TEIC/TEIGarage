@@ -7,6 +7,7 @@
 [![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F-green)](https://fair-software.eu)
 [![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/6925/badge)](https://bestpractices.coreinfrastructure.org/projects/6925)
 [![NFDI4C Registry](https://img.shields.io/badge/NFDI4Culture%20Registry-64BEA0)](https://nfdi4culture.de/id/E4102)
+[![DOI](https://zenodo.org/badge/375025034.svg)](https://zenodo.org/doi/10.5281/zenodo.8036581)
 
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
