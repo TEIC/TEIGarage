@@ -145,7 +145,7 @@ The TEIGarage Java project can be built with Maven using
 `mvn -B package --file pom.xml`
 
 Readymade .war files can be downloaded from the [GitHub Action using nightly.link](https://nightly.link/TEIC/TEIGarage/workflows/maven_docker/main/artifact.zip). For the required Java version see:
-https://github.com/TEIC/TEIGarage/blob/48726dd73a49b1c284d174dc68c26e6fe9cdb03d/.github/workflows/maven_docker.yml#L21.
+https://github.com/TEIC/TEIGarage/blob/48726dd73a49b1c284d174dc68c26e6fe9cdb03d/.github/workflows/maven_docker.yml#L21
 
 ## dependencies
 
