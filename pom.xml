@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>pl.psnc.dl.ege.webapp</groupId>
   <artifactId>teigarage</artifactId>
-  <version>1.2.1</version>
+  <version>1.2.3</version>
   <packaging>war</packaging>
   <name>TEI Garage</name>
   <properties>
