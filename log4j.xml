@@ -6,25 +6,24 @@
   <Appenders>
     <Console name="console" target="SYSTEM_OUT">
         <PatternLayout
-                pattern="%d{ABSOLUTE} %-5p %c{1}:%L - %m%n" />
+                pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p - %m%n" />
     </Console>
     <RollingFile name="rollingFile" fileName="${LOG_DIR}/debugging.out" filePattern="${LOG_DIR}/debugging.%d{dd-MMM}.out.gz" ignoreExceptions="false">
-      <PatternLayout>
-          <Pattern>%m%n</Pattern>
-      </PatternLayout>
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p - %m%n"/>
       <Policies>
         <OnStartupTriggeringPolicy />
         <SizeBasedTriggeringPolicy size="10MB" />
         <TimeBasedTriggeringPolicy />
       </Policies>
       <DefaultRolloverStrategy max="5" />
-    </RollingFile> -->
+    </RollingFile>
   </Appenders>
   <Loggers>
-  <Logger name="debug" level="debug">
+    <Logger name="pl.psnc.dl.ege" level="debug" additivity="false">     
       <AppenderRef ref="rollingFile"/>
     </Logger>
-    <Root level="info" additivity="false">
+    <Root level="warn" additivity="false">
+      <AppenderRef ref="rollingFile"/>
       <AppenderRef ref="console"/>
     </Root>
   </Loggers>

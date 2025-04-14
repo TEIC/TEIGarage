@@ -39,12 +39,19 @@ jobs:
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
 
     steps:
+    
+    #trying to setup jdk 11 in codeql check
+    - name: Set up JDK 11
+      uses: actions/setup-java@v4
+      with:
+        java-version: '11'
+        distribution: 'adopt'
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
         # If you wish to specify custom queries, you can do so here or in a config file.
@@ -55,7 +62,7 @@ jobs:
         # queries: security-extended,security-and-quality
 
     - name: maven-settings
-      uses: s4u/maven-settings-action@v2.7.0
+      uses: s4u/maven-settings-action@v3.1.0
       with:
         servers: '[{"id": "teic", "username": "${github.actor}", "password": "${GITHUB_TOKEN}"}]'
         
@@ -75,6 +82,6 @@ jobs:
       run: mvn clean package --file pom.xml
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
