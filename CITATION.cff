@@ -26,6 +26,6 @@ authors:
 - family-names: "Ferger"
   given-names: "Anne"
 title: "TEIGarage"
-version: 1.0.0
-date-released: 2022-09-14
+version: 1.2.4
+date-released: 2025-04-14
 url: "https://github.com/TEIC/TEIGarage"
