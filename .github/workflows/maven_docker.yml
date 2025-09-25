@@ -99,3 +99,20 @@ jobs:
           username: ${{ secrets.PETERS_DOCKERHUB_USERNAME }}
           password: ${{ secrets.PETERS_DOCKERHUB_TOKEN }}
           repository: teic/teigarage
+
+  clean:
+    name: remove untagged images from Github package registry
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    needs: docker
+    steps:
+      - name: ghcr.io cleanup action
+        uses: dataaxiom/ghcr-cleanup-action@v1
+        with:
+          package: teigarage
+          delete-untagged: true
+          dry-run: false
+          validate: true
+          older-than: 2 weeks
+          token: ${{ secrets.GITHUB_TOKEN }}
