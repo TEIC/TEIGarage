@@ -21,3 +21,4 @@ target/
 !.dockerignore
 !docker-entrypoint.sh
 !src/main/webapp/*
+.idea/**/*
