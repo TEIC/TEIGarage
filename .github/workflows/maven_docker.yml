@@ -94,7 +94,7 @@ jobs:
             BUILDTYPE=github
       # Use current README for DockerHub description
       - name: Update repo description
-        uses: peter-evans/dockerhub-description@v4
+        uses: peter-evans/dockerhub-description@v5
         with:
           username: ${{ secrets.PETERS_DOCKERHUB_USERNAME }}
           password: ${{ secrets.PETERS_DOCKERHUB_TOKEN }}
