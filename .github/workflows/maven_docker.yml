@@ -29,7 +29,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: mvn clean package --file pom.xml
     - name: Upload Maven build artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: artifact
         path: /home/runner/work/TEIGarage/TEIGarage/target/teigarage.war
