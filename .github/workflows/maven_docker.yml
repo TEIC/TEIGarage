@@ -21,7 +21,7 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
     - name: maven-settings
-      uses: s4u/maven-settings-action@v3.1.0
+      uses: s4u/maven-settings-action@v4.0.0
       with:
         servers: '[{"id": "edirom", "username": "${github.actor}", "password": "${GITHUB_TOKEN}"},{"id": "teic", "username": "${github.actor}", "password": "${GITHUB_TOKEN}"}]'
     - name: Build with Maven
