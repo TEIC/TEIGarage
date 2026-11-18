@@ -15,9 +15,9 @@ ARG WEBSERVICE_ARTIFACT=https://nightly.link/TEIC/TEIGarage/workflows/maven_dock
 ARG WEBCLIENT_ARTIFACT=https://nightly.link/TEIC/ege-webclient/workflows/maven/main/artifact.zip
 ARG BUILDTYPE=local
 
-ENV CATALINA_WEBAPPS ${CATALINA_HOME}/webapps
-ENV OFFICE_HOME /usr/lib/libreoffice
-ENV TEI_SOURCES_HOME /usr/share/xml/tei
+ENV CATALINA_WEBAPPS=${CATALINA_HOME}/webapps
+ENV OFFICE_HOME=/usr/lib/libreoffice
+ENV TEI_SOURCES_HOME=/usr/share/xml/tei
 
 USER root:root
 
