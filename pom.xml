@@ -172,7 +172,7 @@
     <plugin>
       <groupId>org.owasp</groupId>
       <artifactId>dependency-check-maven</artifactId>
-      <version>12.1.8</version>
+      <version>13.0.0</version>
       <executions>
           <execution>
               <goals>
