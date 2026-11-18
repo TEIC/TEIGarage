@@ -33,7 +33,7 @@ RUN apt-get update \
     fonts-ipafont-mincho \
     cmake \
     build-essential \
-    libgcc-10-dev \
+    libgcc-11-dev \
     librsvg2-bin \
     curl \
     unzip \
